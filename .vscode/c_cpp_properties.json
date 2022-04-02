@@ -8,11 +8,11 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/include",
-                "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/src",
-                "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/.pio/libdeps/teensy41/MCP3XXX/src",
-                "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/.pio/libdeps/teensy41/Adafruit MCP3008",
-                "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/.pio/libdeps/teensy41/Adafruit BusIO",
+                "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/include",
+                "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/src",
+                "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/MCP3XXX/src",
+                "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit MCP3008",
+                "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit BusIO",
                 "C:/Users/lalithav/.platformio/packages/framework-arduinoteensy/libraries/SPI",
                 "C:/Users/lalithav/.platformio/packages/framework-arduinoteensy/libraries/Wire",
                 "C:/Users/lalithav/.platformio/packages/framework-arduinoteensy/libraries/Wire/utility",
@@ -118,11 +118,11 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/include",
-                    "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/src",
-                    "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/.pio/libdeps/teensy41/MCP3XXX/src",
-                    "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/.pio/libdeps/teensy41/Adafruit MCP3008",
-                    "c:/Users/lalithav/Documents/PlatformIO/Projects/Teensy test/.pio/libdeps/teensy41/Adafruit BusIO",
+                    "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/include",
+                    "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/src",
+                    "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/MCP3XXX/src",
+                    "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit MCP3008",
+                    "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit BusIO",
                     "C:/Users/lalithav/.platformio/packages/framework-arduinoteensy/libraries/SPI",
                     "C:/Users/lalithav/.platformio/packages/framework-arduinoteensy/libraries/Wire",
                     "C:/Users/lalithav/.platformio/packages/framework-arduinoteensy/libraries/Wire/utility",

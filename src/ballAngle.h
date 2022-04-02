@@ -7,5 +7,6 @@ class BallAngle {
         double GetAngle();
 
     private:
-        BallSensor ballSensor; 
+        BallSensor ballSensor;
+        double RobotAngle(double ballAngle); 
 };
