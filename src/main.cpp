@@ -37,7 +37,5 @@ void loop() {
 
   ballAngle.Process();
    motor.Move(ballAngle.robotAngle);
-  delay(1);
-
-
+  delayMicroseconds(1000);
 }

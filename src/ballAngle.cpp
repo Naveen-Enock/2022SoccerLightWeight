@@ -43,8 +43,7 @@ void BallAngle::CalculateRobotAngle()
 
     double dampenVal = min(1, 0.02*exp(-6*(lowestValue-1)));
 
-    double newballAngle = ballAngle > 180 ? (360 - newballAngle) : ballAngle;
+    double newballAngle = ballAngle > 180 ? (360 - ballAngle) : ballAngle;
     double orbitvalue = min(90, 0.02 * exp(0.2 * newballAngle));
     robotAngle = ballAngle + (ballAngle > 180 ? -1 : 1) * (orbitvalue*dampenVal);
-
 }
