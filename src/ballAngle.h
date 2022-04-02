@@ -12,5 +12,5 @@ class BallAngle {
     private:
         BallSensor ballSensor;
         int *sensorValues;
-        double RobotAngle(double ballAngle); 
+        void CalculateRobotAngle(); 
 };

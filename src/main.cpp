@@ -30,12 +30,8 @@ void setup() {
   // pinMode(10,OUTPUT);
   // pinMode(9,INPUT_PULLUP);
   // pinMode(14,INPUT);
-  
- 
-  
+   
 }
-
-
 
 void loop() {
 
