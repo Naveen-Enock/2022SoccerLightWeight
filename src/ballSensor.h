@@ -18,5 +18,6 @@ class BallSensor {
         int sensorOrder[24] = {3,2,1,16,15,14,13,12,11,10,9,24,23,22,21,20,19,18,17,8,7,6,5,4};
         double* COS_IR;
         double* SIN_IR;
+         int *irval;
 
 };

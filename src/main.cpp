@@ -39,87 +39,9 @@ void setup() {
 
 void loop() {
 
-   Serial.println(ballAngle.GetAngle());
-   
-   motor.Move(ballAngle.GetAngle());
-  delay(10);
-
-  // digitalWrite(controlRR, LOW);
-  // digitalWrite(controlFR, LOW);
-  // analogWrite(speedRR, 255);
-  // analogWrite(speedFR, 210);
-  // digitalWrite(ControlFL, HIGH);
-  // digitalWrite(controlRL, HIGH);
-  // analogWrite(SpeedFL, 255);
-  // analogWrite(speedRL, 210);
-  // delay(1000);
-  // digitalWrite(controlRR, LOW);
-  // digitalWrite(controlFR, LOW);
-  // analogWrite(speedRR, 255);
-  // analogWrite(speedFR, 190);
-  // digitalWrite(ControlFL, HIGH);
-  // digitalWrite(controlRL, HIGH);
-  // analogWrite(SpeedFL, 255);
-  // analogWrite(speedRL, 190);
-  // delay(1000);
-  // digitalWrite(controlRR, LOW);
-  // digitalWrite(controlFR, LOW);
-  // analogWrite(speedRR, 255);
-  // analogWrite(speedFR, 0);
-  // digitalWrite(ControlFL, HIGH);
-  // digitalWrite(controlRL, HIGH);
-  // analogWrite(SpeedFL, 255);
-  // analogWrite(speedRL, 0);
-  // delay(1000);
-  // stop();
-  // delay(10000);
-
-  // digitalWrite(controlFR, LOW);
-  // delay(2000);
-  // digitalWrite(controlFR, HIGH);
-  // delay(2000);
-// for(int i = 0 ; i < 48 ; i++)
-// {
-//   int adcNumber = (i / 8) + 1;
-//   int channel = i % 8;
-//   int val = 0;
-
-//   switch (adcNumber)
-//   {
-//     case 1:
-//       val = adc1.analogRead(channel);
-//       break;
-//     case 2:
-//       val = adc2.analogRead(channel);
-//       break;
-//     case 3:
-//       val = adc3.analogRead(channel);
-//       break;
-//       case 4:
-//       val = adc4.analogRead(channel);
-//       break;
-//     case 5:
-//       val = adc5.analogRead(channel);
-//       break;
-//     case 6:
-//       val = adc6.analogRead(channel);
-//       break;
-    
-//     default:
-//       break;
-//   }
-  
-//   Serial.print("Pin : ");
-//   Serial.print(i+1);
-//   Serial.print(" ADC : ");
-//   Serial.print(adcNumber);
-//   Serial.print(" Channel : ");
-//   Serial.print(channel);
-//   Serial.print(" val : ");
-//   Serial.println(val);
-// }
-
-
+  ballAngle.Process();
+   motor.Move(ballAngle.robotAngle);
+  delay(1);
 
 
 }

@@ -2,13 +2,30 @@
 
 BallAngle::BallAngle()
 {
+    ballAngle = -1;
+    
+    robotAngle = -1;
 }
 
-double BallAngle::GetAngle()
+
+void BallAngle::Process()
 {
     sensorValues = ballSensor.GetValues();
+    lowestValue = 2000;
+    for (int i = 0; i < 24; i++)
+    {    
+        if(sensorValues[i] < lowestValue)
+        {
+            lowestValue = sensorValues[i];
+        }
+    }
+    lowestValue = lowestValue/1024;
+    Log("lowestValue ");
+    Logln(lowestValue);  
+
     double *cosValues = ballSensor.GetCosValues();
     double *sinValues = ballSensor.GetSinValues();
+
 
     double totalCos = 0;
     double totalSin = 0;
@@ -22,20 +39,22 @@ double BallAngle::GetAngle()
         totalSin += sensorValue * sinValue;
     }
 
-    double angle = toDegrees(atan2(totalCos, totalSin)) + 180;
+    ballAngle = toDegrees(atan2(totalCos, totalSin)) + 180;
 
     
-     return RobotAngle(angle);
+     robotAngle =  RobotAngle(ballAngle);
+
 }
 
 double BallAngle::RobotAngle(double ballAngle)
 {
-    Serial.print("BallAngle : ");
-    Serial.println(ballAngle);
+    
     double robotAngle;
     double newballAngle;
     double orbitvalue;
-    int strengthNum = (90-ballAngle)/15;
+    double dampenVal = min(1, 0.02*exp(-6*(lowestValue-1)));
+
+
 
     if (ballAngle > 180)
     {
@@ -47,7 +66,7 @@ double BallAngle::RobotAngle(double ballAngle)
             orbitvalue = 90;
         }
         
-        robotAngle = ballAngle - orbitvalue;
+        robotAngle = ballAngle - (orbitvalue*dampenVal);
     }
     else
     {
@@ -56,7 +75,7 @@ double BallAngle::RobotAngle(double ballAngle)
         {
             orbitvalue = 90;
         }
-        robotAngle = ballAngle + orbitvalue;
+        robotAngle = ballAngle + (orbitvalue*dampenVal);
     }
 
     return robotAngle;

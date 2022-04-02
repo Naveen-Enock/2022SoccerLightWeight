@@ -1,4 +1,5 @@
 #include <ballSensor.h>
+#include <trig.h>
 
 BallSensor::BallSensor()
 {
@@ -13,6 +14,7 @@ BallSensor::BallSensor()
     adc2.begin(adcpin2, MOSI, MISO, sck);
     adc3.begin(adcpin3, MOSI, MISO, sck);
 
+    irval = new int[24];
     COS_IR = new double[24];
 	SIN_IR = new double[24];
 	for(int i = 0; i < 24; i ++) {
@@ -35,7 +37,7 @@ double *BallSensor::GetSinValues()
 
 int *BallSensor::GetValues()
 {
-    int *irval = new int[24];
+    
 
     for (int i = 0; i < 24; i++)
     {

@@ -1,5 +1,5 @@
 #include <Arduino.h>
-
+#include <trig.h>
 class Motor
 {
 
@@ -16,4 +16,5 @@ private:
     int controlFR;
     int controlFL;
     int controlRL;
+    void GetMotorDirectionAndSpeed(int &direction, double &power,double maxValue );
 };
