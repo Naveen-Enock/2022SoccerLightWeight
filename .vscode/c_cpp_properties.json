@@ -10,6 +10,9 @@
             "includePath": [
                 "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/include",
                 "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/src",
+                "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit BNO055",
+                "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit BNO055/utility",
+                "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit Unified Sensor",
                 "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/MCP3XXX/src",
                 "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit MCP3008",
                 "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit BusIO",
@@ -120,6 +123,9 @@
                 "path": [
                     "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/include",
                     "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/src",
+                    "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit BNO055",
+                    "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit BNO055/utility",
+                    "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit Unified Sensor",
                     "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/MCP3XXX/src",
                     "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit MCP3008",
                     "c:/Users/lalithav/Documents/PlatformIO/Projects/2022SoccerLightWeight/.pio/libdeps/teensy41/Adafruit BusIO",

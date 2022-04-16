@@ -5,7 +5,7 @@ class Motor
 
 public:
     Motor();
-    void Move(double robotAngle);
+    void Move(double robotAngle,int orientation);
 
 private:
     int speedRR;

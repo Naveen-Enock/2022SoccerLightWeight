@@ -24,7 +24,7 @@ Motor::Motor()
     pinMode(controlFL, OUTPUT);
 };
 
-void Motor::Move(double robotAngle)
+void Motor::Move(double robotAngle,int orientation)
 {
     Logln(robotAngle);
     double powerFR = 0;
