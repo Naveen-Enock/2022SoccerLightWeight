@@ -37,9 +37,9 @@ for (int i = 0; i < 24; i++)
         }
         
         lineValues[i] = val;
-        Serial.print(i);
-        Serial.print(" Line sensor : ");
-        Serial.println(val);
+        // Serial.print(i);
+        // Serial.print(" Line sensor : ");
+        // Serial.println(val);
         
     }
 

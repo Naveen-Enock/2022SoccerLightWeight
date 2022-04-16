@@ -6,7 +6,7 @@ class BallAngle {
         BallAngle();
         void Process();
         double ballAngle;
-        double lowestValue;
+        double highestValue;
         double robotAngle;
 
     private:

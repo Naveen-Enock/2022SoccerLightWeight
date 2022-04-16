@@ -35,11 +35,12 @@ void Motor::Move(double robotAngle)
     int dirFL = LOW;
     int dirRR = LOW;
     int dirRL = LOW;
+    
 
-    powerFR = sin(toRadians(robotAngle - 50));
-    powerRR = sin(toRadians(robotAngle - 130));
-    powerRL = sin(toRadians(robotAngle - 230));
-    powerFL = sin(toRadians(robotAngle - 310));
+    powerFR = sin(toRadians(robotAngle - 40)) ;
+    powerRR = sin(toRadians(robotAngle - 140)) ;
+    powerRL = sin(toRadians(robotAngle - 220));
+    powerFL = sin(toRadians(robotAngle - 320));
 
     double maxval = max(max(abs(powerFR),abs(powerFL)),max(abs(powerRR),abs(powerFL)));
 
