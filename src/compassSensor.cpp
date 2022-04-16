@@ -15,7 +15,7 @@ int CompassSensor::getOrientation()
 {
 bno.getEvent(&event);
     Serial.print("X: ");
-  Serial.print(event.orientation.x, 4);
+  Serial.println(event.orientation.x, 4);
   return event.orientation.x;
 };
 void CompassSensor:: displayCalStatus(void)

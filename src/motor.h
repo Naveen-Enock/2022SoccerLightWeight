@@ -1,11 +1,13 @@
 #include <Arduino.h>
 #include <trig.h>
+
 class Motor
 {
 
 public:
     Motor();
-    void Move(double robotAngle,int orientation);
+    void Move(double robotAngle,double orientation, double initialOrientation);
+
 
 private:
     int speedRR;

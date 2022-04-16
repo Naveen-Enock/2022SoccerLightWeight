@@ -24,8 +24,9 @@ Motor::Motor()
     pinMode(controlFL, OUTPUT);
 };
 
-void Motor::Move(double robotAngle,int orientation)
+void Motor::Move(double robotAngle, double orientation, double initialOrientation)
 {
+
     Logln(robotAngle);
     double powerFR = 0;
     double powerFL = 0;
@@ -35,22 +36,53 @@ void Motor::Move(double robotAngle,int orientation)
     int dirFL = LOW;
     int dirRR = LOW;
     int dirRL = LOW;
-    
+    double orientationVal = orientation - initialOrientation;
+    if (orientation > 180)
+    {
+        orientationVal = orientationVal - 360;
+    }
 
-    powerFR = sin(toRadians(robotAngle - 40)) ;
-    powerRR = sin(toRadians(robotAngle - 140)) ;
-    powerRL = sin(toRadians(robotAngle - 220));
-    powerFL = sin(toRadians(robotAngle - 320));
+    Serial.print("Val : ");
+    Serial.println(orientationVal);
 
-    double maxval = max(max(abs(powerFR),abs(powerFL)),max(abs(powerRR),abs(powerFL)));
+    double correction = -1 * (sin(toRadians(orientationVal)));
+    if (orientationVal > -15)
+    {
+        if (orientationVal < 0)
+        {
+            correction = 0;
+        }
+    }
+    if (orientationVal < 15)
+    {
+        if (orientationVal > 0)
+        {
+            correction = 0;
+        }
+    }
+    if (orientationVal >90){
+        correction =-1;
+    }
+        if (orientationVal <-90){
+        correction =1;
+    }
 
-    GetMotorDirectionAndSpeed(dirFR,powerFR,maxval);
-    GetMotorDirectionAndSpeed(dirFL,powerFL,maxval);
-    GetMotorDirectionAndSpeed(dirRR,powerRR,maxval);
-    GetMotorDirectionAndSpeed(dirRL,powerRL,maxval);
- 
-    
-    
+    Serial.println();
+    Serial.println("Correction : ");
+    Serial.println(correction);
+
+    powerFR = sin(toRadians(robotAngle - 40)) + correction;
+    powerRR = sin(toRadians(robotAngle - 140)) + correction;
+    powerRL = sin(toRadians(robotAngle - 220)) + correction;
+    powerFL = sin(toRadians(robotAngle - 320)) + correction;
+
+    double maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
+
+    GetMotorDirectionAndSpeed(dirFR, powerFR, maxval);
+    GetMotorDirectionAndSpeed(dirFL, powerFL, maxval);
+    GetMotorDirectionAndSpeed(dirRR, powerRR, maxval);
+    GetMotorDirectionAndSpeed(dirRL, powerRL, maxval);
+
     digitalWrite(controlRR, dirRR);
     digitalWrite(controlFR, dirFR);
     analogWrite(speedRR, powerRR);
@@ -61,8 +93,8 @@ void Motor::Move(double robotAngle,int orientation)
     analogWrite(speedRL, powerRL);
 }
 
-void Motor::GetMotorDirectionAndSpeed(int &direction, double &power,double maxValue)
+void Motor::GetMotorDirectionAndSpeed(int &direction, double &power, double maxValue)
 {
     direction = power < 0 ? LOW : HIGH;
-    power = 255 * abs(power)/maxValue;
+    power = 255 * abs(power) / maxValue;
 }
