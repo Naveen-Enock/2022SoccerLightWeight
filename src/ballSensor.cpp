@@ -62,9 +62,6 @@ int *BallSensor::GetValues()
         }
         
         irval[i] = val;
-Serial.print(i);
-Serial.println(" Ball: ");
-        Serial.println(val);
     }
 
     return irval;

@@ -6,115 +6,43 @@
 #include <motor.h>
 #include <lineSensor.h>
 #include <compassSensor.h>
-#include <Cam.h>
-#include <stdlib.h>
 
 
+int buttonState = 0;
 BallAngle ballAngle;
 Motor motor;
 LineSensor lineSensor;
 CompassSensor compassSensor;
-Cam cam;
 int initialOrientation = compassSensor.getOrientation();
-int startState = 0;
-double camAngle = 0;
-
-
 void setup()
 {
-
-  Serial2.begin(19200);
+  Serial.begin(9600);
 
   // pinMode(10,OUTPUT);
   pinMode(9, INPUT_PULLUP);
-  pinMode(10,OUTPUT);
-  digitalWrite(10,LOW);
-  pinMode(36,INPUT_PULLUP);
-}
-
-
-int tick = 0;
-void runRobot()
-{
-  
-
-  ballAngle.kickButton();
-
-  camAngle = cam.CamAngle();
-  
-  //lineSensor.GetValues();
-  
-
-  
-  ballAngle.Process();
-  motor.Move(ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation);
-  // if (ballAngle.Intake() == 1 && tick == 0)
-  // {
-  //   ballAngle.capture = true;
-  //   tick = 1;
-  // }
-
-  // else if (tick < 10000 && tick > 0)
-  // {
-  //   ballAngle.capture = true;
-  //   tick +=1;
-  // }
-  // else
-  // {
-  //   ballAngle.capture = false;
-  //   tick = 0;
-  // }
-  // Serial.print("Capture : ");
-  // Serial.println(ballAngle.capture);
-  // Serial.print("cam Angle : ");
-  //   Serial.println(camAngle);
-  // if (ballAngle.capture == 1)
-  // {
-  //   int goalOrientation = initialOrientation;
-  //   Serial.print("initialOrientation: ");
-  //   Serial.println(initialOrientation);
-  //   if (camAngle >180)
-  //   {
-  //     camAngle = camAngle -360;
-  //   }
-    
-  //   goalOrientation += camAngle;
-  //   if (goalOrientation <0)
-  //   {
-  //     goalOrientation+=360;
-  //   }
-    
-  //   Serial.print("goalOrientation: ");
-  //   Serial.println(goalOrientation);
-    
-  //   motor.Move(ballAngle.robotAngle, compassSensor.getOrientation(), goalOrientation);
-  // }
-
-  // else
-  // {
-  //   motor.Move(ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation);
-  // }
-  
-
+  // pinMode(14,INPUT);
 }
 
 void loop()
 {
-  delay(1000);
-  if(startState == 0)
-  {
-    int startbutton = digitalRead(36);
-    
-    if( startbutton == 0)
-    {
-      startState = 1;
-      Serial.println("Started");
-    }
-    Serial.println("Press Button To start");
-  }
-  else
-  {
-    runRobot();
-  }
-}
+  //  int *values = lineSensor.GetValues();
+  int buttonState = digitalRead(9);
+  // Serial.print("Button state: ");
+  // Serial.println (buttonState);
 
+
+      ballAngle.Process();
+      motor.Move(ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation);
+      delay(1);
+
+
+    // digitalWrite(28, HIGH);
+    // digitalWrite(33, HIGH);
+    // analogWrite(29, 0);
+    // analogWrite(15, 0);
+    // digitalWrite(6, HIGH);
+    // digitalWrite(4, HIGH);
+    // analogWrite(5, 0);
+    // analogWrite(3, 0);
+
+}

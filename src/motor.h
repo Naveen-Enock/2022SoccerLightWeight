@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <trig.h>
 
-
 class Motor
 {
 

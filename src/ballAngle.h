@@ -8,15 +8,9 @@ class BallAngle {
         double ballAngle;
         double highestValue;
         double robotAngle;
-        int Intake();
-        bool capture = false;
-        int buttonState = 1;
-        void kickButton();
-        
 
     private:
         BallSensor ballSensor;
         int *sensorValues;
         void CalculateRobotAngle(); 
-        
 };
