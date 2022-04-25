@@ -46,14 +46,14 @@ void Motor::Move(double robotAngle, double orientation, double initialOrientatio
     Serial.println(orientationVal);
 
     double correction = -1 * (sin(toRadians(orientationVal)));
-    if (orientationVal > -15)
+    if (orientationVal > -5)
     {
         if (orientationVal < 0)
         {
             correction = 0;
         }
     }
-    if (orientationVal < 15)
+    if (orientationVal < 5)
     {
         if (orientationVal > 0)
         {
