@@ -7,18 +7,20 @@
 #include <lineSensor.h>
 #include <compassSensor.h>
 #include <Cam.h>
+#include <lineAvoidance.h>
 #include <stdlib.h>
-
 
 BallAngle ballAngle;
 Motor motor;
 LineSensor lineSensor;
 CompassSensor compassSensor;
 Cam cam;
-int initialOrientation = compassSensor.getOrientation();
-int startState = 0;
-double camAngle = 0;
+LineAvoidance lineAvoidance;
+int initialOrientation = -1;
 
+double camAngle = -1;
+int buttonstate = -1;
+int startstate = -1;
 
 void setup()
 {
@@ -27,27 +29,24 @@ void setup()
 
   // pinMode(10,OUTPUT);
   pinMode(9, INPUT_PULLUP);
-  pinMode(10,OUTPUT);
-  digitalWrite(10,LOW);
-  pinMode(36,INPUT_PULLUP);
+  pinMode(10, OUTPUT);
+  digitalWrite(10, LOW);
+  pinMode(36, INPUT_PULLUP);
 }
-
 
 int tick = 0;
 void runRobot()
 {
-  
 
   ballAngle.kickButton();
 
   camAngle = cam.CamAngle();
-  
-  //lineSensor.GetValues();
-  
 
-  
+  //lineSensor.GetValues();
+
   ballAngle.Process();
-  motor.Move(ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation);
+  lineAvoidance.Process(ballAngle.ballpresent);
+  motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation() , initialOrientation, lineAvoidance.lineFR,lineAvoidance.lineRR,lineAvoidance.lineRL,lineAvoidance.lineFL);
   // if (ballAngle.Intake() == 1 && tick == 0)
   // {
   //   ballAngle.capture = true;
@@ -77,16 +76,16 @@ void runRobot()
   //   {
   //     camAngle = camAngle -360;
   //   }
-    
+
   //   goalOrientation += camAngle;
   //   if (goalOrientation <0)
   //   {
   //     goalOrientation+=360;
   //   }
-    
+
   //   Serial.print("goalOrientation: ");
   //   Serial.println(goalOrientation);
-    
+
   //   motor.Move(ballAngle.robotAngle, compassSensor.getOrientation(), goalOrientation);
   // }
 
@@ -94,27 +93,35 @@ void runRobot()
   // {
   //   motor.Move(ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation);
   // }
-  
-
 }
 
 void loop()
 {
   delay(1000);
-  if(startState == 0)
+  if (buttonstate == -1)
   {
-    int startbutton = digitalRead(36);
-    
-    if( startbutton == 0)
+    startstate = digitalRead(36);
+    if (startstate == 0)
     {
-      startState = 1;
-      Serial.println("Started");
+      buttonstate = startstate +2;
     }
-    Serial.println("Press Button To start");
+    
+    Serial.println("press button to start");
   }
-  else
+
+  else if (buttonstate == 2)
+  {
+    initialOrientation = compassSensor.getOrientation();
+    buttonstate = 1;
+  }
+  else if (buttonstate == 1)
   {
     runRobot();
+    buttonstate = digitalRead(36);
+  }
+
+  else if (buttonstate == 0)
+  {
+    buttonstate = -1;
   }
 }
-

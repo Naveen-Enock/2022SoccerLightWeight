@@ -7,7 +7,9 @@ class Motor
 
 public:
     Motor();
-    void Move(double robotAngle,double orientation, double initialOrientation);
+    void Move(bool ballpresent, double robotAngle,double orientation, double initialOrientation, double lineFR, double lineRR, double lineRL, double lineFL);
+    double correction;
+    
 
 
 private:
@@ -20,4 +22,5 @@ private:
     int controlFL;
     int controlRL;
     void GetMotorDirectionAndSpeed(int &direction, double &power,double maxValue );
+    void Orientation(double orientation, double initialOrientation);
 };

@@ -6,11 +6,13 @@ BallAngle::BallAngle()
 
     robotAngle = -1;
     pinMode(14, INPUT);
-    int buttonState = 1;
+    
+    bool ballpresent = false;
 }
 
 void BallAngle::Process()
 {
+    ballpresent = false;
     sensorValues = ballSensor.GetValues();
 
     highestValue = 0;
@@ -24,6 +26,10 @@ void BallAngle::Process()
     }
     int realhighestVal = highestValue;
     highestValue = highestValue / 1024;
+if (realhighestVal >124)
+{
+    ballpresent = true;
+}
 
     double *cosValues = ballSensor.GetCosValues();
     double *sinValues = ballSensor.GetSinValues();
@@ -87,11 +93,11 @@ int BallAngle::Intake()
 }
 void BallAngle::kickButton()
 {
-    buttonState = 1;
+    kickState = 1;
     digitalWrite(10,LOW);
-    buttonState = digitalRead(9);
+    kickState = digitalRead(9);
 
-    if (buttonState == 0){
+    if (kickState == 0){
         digitalWrite(10, HIGH);
     }
     else 

@@ -23,8 +23,41 @@ Motor::Motor()
     pinMode(controlFR, OUTPUT);
     pinMode(controlFL, OUTPUT);
 };
+void Motor::Orientation(double orientation, double initialOrientation)
+{
+    double orientationVal;
+    orientationVal = orientation - initialOrientation;
+    if (orientationVal > 180)
+    {
+        orientationVal = -1 * (360 - orientationVal);
+    }
 
-void Motor::Move(double robotAngle, double orientation, double initialOrientation)
+    Serial.print("Val : ");
+    Serial.println(orientationVal);
+
+    correction = -1 * (sin(toRadians(orientationVal)));
+    if (orientationVal > -5 && orientationVal < 0)
+    {
+        correction = 0;
+    }
+    else if (orientationVal < 5 && orientationVal > 0)
+    {
+        correction = 0;
+    }
+    else if (orientationVal > 90)
+    {
+        correction = -1;
+    }
+    else if (orientationVal < -90)
+    {
+        correction = 1;
+    }
+
+    Serial.println();
+    Serial.println("Correction : ");
+    Serial.println(correction);
+}
+void Motor::Move(bool ballpresent, double robotAngle, double orientation, double initialOrientation,double lineFR, double lineRR, double lineRL, double lineFL)
 {
 
     Logln(robotAngle);
@@ -32,49 +65,33 @@ void Motor::Move(double robotAngle, double orientation, double initialOrientatio
     double powerFL = 0;
     double powerRR = 0;
     double powerRL = 0;
+    double ballFR = 0;
+    double ballFL = 0;
+    double ballRR = 0;
+    double ballRL = 0;
+
     int dirFR = LOW;
     int dirFL = LOW;
     int dirRR = LOW;
     int dirRL = LOW;
-    double orientationVal = orientation - initialOrientation;
-    if (orientation > 180)
+
+    Orientation(orientation, initialOrientation);
+    ballFR = sin(toRadians(robotAngle - 40));
+    ballRR = sin(toRadians(robotAngle - 140));
+    ballRL = sin(toRadians(robotAngle - 220));
+    ballFL = sin(toRadians(robotAngle - 320));
+    if (ballpresent == false)
     {
-        orientationVal = orientationVal - 360;
+        ballFR = 0;
+        ballRR = 0;
+        ballRL = 0;
+        ballFL = 0;
     }
 
-    Serial.print("Val : ");
-    Serial.println(orientationVal);
-
-    double correction = -1 * (sin(toRadians(orientationVal)));
-    if (orientationVal > -5)
-    {
-        if (orientationVal < 0)
-        {
-            correction = 0;
-        }
-    }
-    if (orientationVal < 5)
-    {
-        if (orientationVal > 0)
-        {
-            correction = 0;
-        }
-    }
-    if (orientationVal >90){
-        correction =-1;
-    }
-        if (orientationVal <-90){
-        correction =1;
-    }
-
-    Serial.println();
-    Serial.println("Correction : ");
-    Serial.println(correction);
-
-    powerFR = sin(toRadians(robotAngle - 40)) + correction;
-    powerRR = sin(toRadians(robotAngle - 140)) + correction;
-    powerRL = sin(toRadians(robotAngle - 220)) + correction;
-    powerFL = sin(toRadians(robotAngle - 320)) + correction;
+    powerFR = ballFR + correction+lineFR;
+    powerRR = ballRR + correction+lineRR;
+    powerRL = ballRL + correction+lineRL;
+    powerFL = ballFL + correction+lineFL;
 
     double maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
 

@@ -10,8 +10,9 @@ class BallAngle {
         double robotAngle;
         int Intake();
         bool capture = false;
-        int buttonState = 1;
+        int kickState = 1;
         void kickButton();
+        bool ballpresent = false;
         
 
     private:

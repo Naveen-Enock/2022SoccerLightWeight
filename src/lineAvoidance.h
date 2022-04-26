@@ -3,11 +3,29 @@
 class LineAvoidance {
   public: 
      LineAvoidance();  
-      void Process();
+      void Process(bool ball);
+      int lowestval;
+      int highestval;
+      int sensorAngle;
+      int anglebisc;
+      double chord;
+      double chordlength;
+      double lineFR;
+      double lineFL;
+      double lineRR;
+      double lineRL;
+      int initialAngle;
+      int currentAngle;
+      int angleDiff;
+      int lineAngle;
+
         
 
     private:
     int *lineValues;
+    int *sensorAngles;
     LineSensor lineSensor;
-         
+    void angle();
+    void Chord();
+    void Power(bool ball);
 };

@@ -9,9 +9,9 @@ class LineSensor {
 	public:
         LineSensor();
         int *GetValues();
-        double *LineAngle();
+        int *LineAngle();
         int *lineValues;
-        double* angleLS;
+        int* angleLS;
        
     private:
     MCP3008 adc4;
