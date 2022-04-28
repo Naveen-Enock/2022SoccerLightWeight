@@ -13,7 +13,7 @@
 BallAngle ballAngle;
 Motor motor;
 CompassSensor compassSensor;
-LineSensor lineSensor;
+//LineSensor lineSensor;
 Cam cam;
 LineAvoidance lineAvoidance;
 int initialOrientation = -1;
@@ -107,7 +107,7 @@ void loop()
       buttonstate = startstate +2;
     }
     
-    LineSensor lineSensor;
+    //LineSensor lineSensor;
     Serial.println("press button to start");
   }
 
