@@ -11,14 +11,19 @@ int adcpin6 = 21;
    adc5.begin(adcpin5,11,12,13);
    adc6.begin(adcpin6,11,12,13);
 
-   angleLS = new int[24];
-	for(int i = 0; i < 24; i ++) {
-		angleLS[i] = cos(toRadians( i * 15));
-	}
+
+
 };
 
 int *LineSensor::LineAngle()
 {
+       angleLS = new int[24];
+	for(int i = 0; i < 24; i ++) {
+		angleLS[i] = i*15;
+        // Serial.print(i);
+        // Serial.print(" Line sensor : ");
+        // Serial.println(angleLS[i]);
+	}
     return angleLS;
 }
 
@@ -51,9 +56,9 @@ for (int i = 0; i < 24; i++)
         }
         
         lineValues[i] = val;
-        Serial.print(i);
-        Serial.print(" Line sensor : ");
-        Serial.println(val);
+        // Serial.print(i);
+        // Serial.print(" Line sensor : ");
+        // Serial.println(val);
         
 
 

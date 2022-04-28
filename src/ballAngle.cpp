@@ -6,7 +6,7 @@ BallAngle::BallAngle()
 
     robotAngle = -1;
     pinMode(14, INPUT);
-    
+
     bool ballpresent = false;
 }
 
@@ -26,10 +26,10 @@ void BallAngle::Process()
     }
     int realhighestVal = highestValue;
     highestValue = highestValue / 1024;
-if (realhighestVal >124)
-{
-    ballpresent = true;
-}
+    if (realhighestVal > 124)
+    {
+        ballpresent = true;
+    }
 
     double *cosValues = ballSensor.GetCosValues();
     double *sinValues = ballSensor.GetSinValues();
@@ -56,8 +56,8 @@ if (realhighestVal >124)
         ballAngle = ballAngle + 360;
     }
 
-    Serial.print("Ballangle : ");
-    Serial.println(ballAngle);
+    // Serial.print("Ballangle : ");
+    // Serial.println(ballAngle);
     CalculateRobotAngle();
 }
 
@@ -67,16 +67,16 @@ void BallAngle::CalculateRobotAngle()
     double dampenVal = min(1, 0.02 * exp(5.5 * highestValue));
 
     double newballAngle = ballAngle > 180 ? (360 - ballAngle) : ballAngle;
-    Serial.print("ballangle : ");
-    Serial.println(newballAngle);
+    // Serial.print("ballangle : ");
+    // Serial.println(newballAngle);
     double orbitvalue = min(90, 0.08 * exp(0.2 * newballAngle));
-    Serial.print("dampen : ");
-    Serial.println(dampenVal);
-    Serial.print("orbit : ");
-    Serial.println(orbitvalue);
+    // Serial.print("dampen : ");
+    // Serial.println(dampenVal);
+    // Serial.print("orbit : ");
+    // Serial.println(orbitvalue);
     robotAngle = ballAngle + (ballAngle > 180 ? -1 : 1) * (orbitvalue * dampenVal);
-    Serial.print("robotAngle : ");
-    Serial.println(robotAngle);
+    // Serial.print("robotAngle : ");
+    // Serial.println(robotAngle);
 }
 
 int BallAngle::Intake()
@@ -86,23 +86,24 @@ int BallAngle::Intake()
     {
         return 1;
     }
-    
-    else{
+
+    else
+    {
         return 0;
     }
 }
 void BallAngle::kickButton()
 {
     kickState = 1;
-    digitalWrite(10,LOW);
+    digitalWrite(10, LOW);
     kickState = digitalRead(9);
 
-    if (kickState == 0){
+    if (kickState == 0)
+    {
         digitalWrite(10, HIGH);
     }
-    else 
+    else
     {
-        digitalWrite(10,LOW);
+        digitalWrite(10, LOW);
     }
 }
-

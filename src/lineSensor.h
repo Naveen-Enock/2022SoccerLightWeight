@@ -11,7 +11,7 @@ class LineSensor {
         int *GetValues();
         int *LineAngle();
         int *lineValues;
-        int* angleLS;
+        int *angleLS;
        
     private:
     MCP3008 adc4;
@@ -19,7 +19,7 @@ class LineSensor {
     MCP3008 adc6;
     
     
-    int lineOrder[24] = {19,20,21,22,23,24,1,12,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
+    int lineOrder[24] = {19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
 
 
 };

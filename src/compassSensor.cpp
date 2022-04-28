@@ -5,7 +5,7 @@ CompassSensor::CompassSensor()
   if(!bno.begin())
   {
     /* There was a problem detecting the BNO055 ... check your connections */
-    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
+    //Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
     while(1);
   }  
    bno.setExtCrystalUse(true);
@@ -14,8 +14,8 @@ CompassSensor::CompassSensor()
 int CompassSensor::getOrientation()
 {
 bno.getEvent(&event);
-    Serial.print("X: ");
-  Serial.println(event.orientation.x, 4);
+  //   Serial.print("X: ");
+  // Serial.println(event.orientation.x, 4);
   return event.orientation.x;
 };
 void CompassSensor:: displayCalStatus(void)
@@ -25,21 +25,21 @@ void CompassSensor:: displayCalStatus(void)
   system = gyro = accel = mag = 0;
   bno.getCalibration(&system, &gyro, &accel, &mag);
 
-  Serial.print("\t");
+  //Serial.print("\t");
   if (!system)
   {
-    Serial.print("! ");
+    //Serial.print("! ");
   }
 
  
-  Serial.print("Sys:");
-  Serial.print(system, DEC);
-  Serial.print(" G:");
-  Serial.print(gyro, DEC);
-  Serial.print(" A:");
-  Serial.print(accel, DEC);
-  Serial.print(" M:");
-  Serial.print(mag, DEC);
+  // Serial.print("Sys:");
+  // Serial.print(system, DEC);
+  // Serial.print(" G:");
+  // Serial.print(gyro, DEC);
+  // Serial.print(" A:");
+  // Serial.print(accel, DEC);
+  // Serial.print(" M:");
+  // Serial.print(mag, DEC);
 };
 
 void CompassSensor::displaySensorDetails(void)

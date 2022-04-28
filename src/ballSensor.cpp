@@ -67,8 +67,8 @@ int *BallSensor::GetValues()
     }
 
 
-        Serial.println(irval[16]);
-        Serial.println(irval[17]);
-        Serial.println(irval[18]);
+        // Serial.println(irval[16]);
+        // Serial.println(irval[17]);
+        // Serial.println(irval[18]);
     return irval;
 }

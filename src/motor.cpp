@@ -26,21 +26,35 @@ Motor::Motor()
 void Motor::Orientation(double orientation, double initialOrientation)
 {
     double orientationVal;
-    orientationVal = orientation - initialOrientation;
+    if (initialOrientation <180  && orientation > 180)
+    {
+        orientation = -1*(360-orientation);
+    }
+    if (initialOrientation > 180 && orientation < 180)
+    {
+        orientation = (orientation + 360);
+    }
+    orientationVal = abs(orientation - initialOrientation);
+
+    Serial.println(orientationVal);
     if (orientationVal > 180)
     {
-        orientationVal = -1 * (360 - orientationVal);
+        orientationVal = (360 - orientationVal);
     }
 
-    Serial.print("Val : ");
-    Serial.println(orientationVal);
+    if (orientation < initialOrientation)
+    {
+        orientationVal = -1*orientationVal;
+    }
+
 
     correction = -1 * (sin(toRadians(orientationVal)));
-    if (orientationVal > -5 && orientationVal < 0)
+
+    if (orientationVal > -8 && orientationVal < 0)
     {
         correction = 0;
     }
-    else if (orientationVal < 5 && orientationVal > 0)
+    else if (orientationVal < 8 && orientationVal > 0)
     {
         correction = 0;
     }
@@ -52,46 +66,48 @@ void Motor::Orientation(double orientation, double initialOrientation)
     {
         correction = 1;
     }
+    if (correction<0.7 && correction >0)
+    {
+        correction = 0.7;
+    }
+    else if (correction>-0.7 && correction <0)
+    {
+        correction = -0.7;
+    }
+    
+    
 
-    Serial.println();
-    Serial.println("Correction : ");
-    Serial.println(correction);
+    // Serial.println("Correction : ");
+    // Serial.println(correction);
 }
 void Motor::Move(bool ballpresent, double robotAngle, double orientation, double initialOrientation,double lineFR, double lineRR, double lineRL, double lineFL)
 {
+
 
     Logln(robotAngle);
     double powerFR = 0;
     double powerFL = 0;
     double powerRR = 0;
     double powerRL = 0;
-    double ballFR = 0;
-    double ballFL = 0;
-    double ballRR = 0;
-    double ballRL = 0;
 
     int dirFR = LOW;
     int dirFL = LOW;
     int dirRR = LOW;
     int dirRL = LOW;
 
-    Orientation(orientation, initialOrientation);
-    ballFR = sin(toRadians(robotAngle - 40));
-    ballRR = sin(toRadians(robotAngle - 140));
-    ballRL = sin(toRadians(robotAngle - 220));
-    ballFL = sin(toRadians(robotAngle - 320));
+    
+    powerFR = sin(toRadians(robotAngle - 40));
+    powerRR = sin(toRadians(robotAngle - 140));
+    powerRL = sin(toRadians(robotAngle - 220));
+    powerFL = sin(toRadians(robotAngle - 320));
     if (ballpresent == false)
     {
-        ballFR = 0;
-        ballRR = 0;
-        ballRL = 0;
-        ballFL = 0;
+        powerFR = 0;
+        powerRR = 0;
+        powerRL = 0;
+        powerFL = 0;
     }
 
-    powerFR = ballFR + correction+lineFR;
-    powerRR = ballRR + correction+lineRR;
-    powerRL = ballRL + correction+lineRL;
-    powerFL = ballFL + correction+lineFL;
 
     double maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
 
@@ -99,6 +115,47 @@ void Motor::Move(bool ballpresent, double robotAngle, double orientation, double
     GetMotorDirectionAndSpeed(dirFL, powerFL, maxval);
     GetMotorDirectionAndSpeed(dirRR, powerRR, maxval);
     GetMotorDirectionAndSpeed(dirRL, powerRL, maxval);
+
+Orientation(orientation, initialOrientation);
+
+    powerFR = powerFR + correction+lineFR;
+    powerRR = powerRR + correction+lineRR;
+    powerRL = powerRL + correction+lineRL;
+    powerFL = powerFL + correction+lineFL;
+    // Serial.print("Power FR : ");
+    // Serial.println(powerFR);
+    // Serial.println(lineFR);
+    // Serial.print("Power RR : ");
+    // Serial.println(powerRR);
+    // Serial.println(lineRR);  
+    // Serial.print("Power RL : ");
+    // Serial.println(powerRL); 
+    // Serial.println(lineRL);
+    // Serial.print("Power FL : ");
+    // Serial.println(powerFL); 
+    // Serial.println(lineFL);
+    
+
+maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
+
+    
+    GetMotorDirectionAndRealSpeed(dirFR, powerFR, maxval);
+    GetMotorDirectionAndRealSpeed(dirFL, powerFL, maxval);
+    GetMotorDirectionAndRealSpeed(dirRR, powerRR, maxval);
+    GetMotorDirectionAndRealSpeed(dirRL, powerRL, maxval);
+
+    Serial.print("Power FR : ");
+    Serial.println(powerFR);
+    Serial.println(dirFR);
+    Serial.print("Power RR : ");
+    Serial.println(powerRR);
+    Serial.println(dirRR);  
+    Serial.print("Power RL : ");
+    Serial.println(powerRL); 
+    Serial.println(dirRL);
+    Serial.print("Power FL : ");
+    Serial.println(powerFL); 
+    Serial.println(dirFL);
 
     digitalWrite(controlRR, dirRR);
     digitalWrite(controlFR, dirFR);
@@ -112,6 +169,38 @@ void Motor::Move(bool ballpresent, double robotAngle, double orientation, double
 
 void Motor::GetMotorDirectionAndSpeed(int &direction, double &power, double maxValue)
 {
+    
+    if (maxValue == 0)
+    {
+        power = 0;
+
+    }
+
+    
+    else
+    {
+    power = power / maxValue;
     direction = power < 0 ? LOW : HIGH;
-    power = 255 * abs(power) / maxValue;
+    }
+    
+
+}
+
+void Motor::GetMotorDirectionAndRealSpeed(int &direction, double &power,double maxValue )
+{
+if (maxValue == 0)
+{
+    power = 0;
+}
+    else if (maxValue <=1)
+    {
+        direction = power < 0 ? LOW : HIGH;
+        power = 255*abs(power);
+        
+    }
+else{
+direction = power < 0 ? LOW : HIGH;
+power = 255 * abs(power) / maxValue;
+
+}
 }

@@ -4,7 +4,7 @@
 #include <MCP3XXX.h>
 #include <ballAngle.h>
 #include <motor.h>
-#include <lineSensor.h>
+
 #include <compassSensor.h>
 #include <Cam.h>
 #include <lineAvoidance.h>
@@ -12,8 +12,8 @@
 
 BallAngle ballAngle;
 Motor motor;
-LineSensor lineSensor;
 CompassSensor compassSensor;
+LineSensor lineSensor;
 Cam cam;
 LineAvoidance lineAvoidance;
 int initialOrientation = -1;
@@ -45,6 +45,7 @@ void runRobot()
   //lineSensor.GetValues();
 
   ballAngle.Process();
+
   lineAvoidance.Process(ballAngle.ballpresent);
   motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation() , initialOrientation, lineAvoidance.lineFR,lineAvoidance.lineRR,lineAvoidance.lineRL,lineAvoidance.lineFL);
   // if (ballAngle.Intake() == 1 && tick == 0)
@@ -106,6 +107,7 @@ void loop()
       buttonstate = startstate +2;
     }
     
+    LineSensor lineSensor;
     Serial.println("press button to start");
   }
 
@@ -122,6 +124,15 @@ void loop()
 
   else if (buttonstate == 0)
   {
+    Serial.println("yo");
+    digitalWrite(28, HIGH);
+    digitalWrite(33, HIGH);
+    analogWrite(29, 0);
+    analogWrite(15, 0);
+    digitalWrite(6, HIGH);
+    digitalWrite(4, HIGH);
+    analogWrite(5, 0);
+    analogWrite(3, 0);
     buttonstate = -1;
   }
 }

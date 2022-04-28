@@ -22,5 +22,6 @@ private:
     int controlFL;
     int controlRL;
     void GetMotorDirectionAndSpeed(int &direction, double &power,double maxValue );
+    void GetMotorDirectionAndRealSpeed(int &direction, double &power,double maxValue );
     void Orientation(double orientation, double initialOrientation);
 };

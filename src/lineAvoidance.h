@@ -18,6 +18,7 @@ class LineAvoidance {
       int currentAngle;
       int angleDiff;
       int lineAngle;
+      bool linepresent = false;
 
         
 
