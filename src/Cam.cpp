@@ -3,9 +3,10 @@
 Cam::Cam()
 {
  buff = 0;
+ dist = 0;
  buffer = "";
 }
-double Cam::CamAngle()
+double Cam::CamCalc()
 {
   // Read the most recent byte
 
@@ -17,11 +18,16 @@ double Cam::CamAngle()
       char read = Serial2.read();
       if (read == 'a')
       {
+        dist = strtod(buffer.c_str(), NULL);
+        buffer = "";
+      }
+      
+      else if (read == '|')
+      {
         buff = strtod(buffer.c_str(), NULL);
         //Serial.println(buff);
         
         buffer = "";
-        return buff;
       }
       else
       {
@@ -33,3 +39,5 @@ double Cam::CamAngle()
   }
   return 0;
 };
+
+

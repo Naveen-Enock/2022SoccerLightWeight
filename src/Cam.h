@@ -6,10 +6,13 @@
 class Cam {
 	public:
         Cam();
-        double CamAngle();
+        double CamCalc();
+        double dist;
+        double buff;
         double camVal;
     private:
-        double buff;
+        
+        
         std::string buffer;
 
 };

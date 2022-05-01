@@ -81,15 +81,15 @@ void BallAngle::CalculateRobotAngle()
 
 int BallAngle::Intake()
 {
-    bool capture = false;
+    
     if (analogRead(14) < 150)
     {
-        return 1;
+        capture = true;
     }
 
     else
     {
-        return 0;
+        capture = false;
     }
 }
 void BallAngle::kickButton()
