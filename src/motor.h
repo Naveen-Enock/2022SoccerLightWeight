@@ -10,9 +10,11 @@ public:
     void Move(bool ballpresent, double robotAngle,double orientation, double initialOrientation, double lineFR, double lineRR, double lineRL, double lineFL);
     double correction;
     
+    
 
 
 private:
+    double maxval;
     int speedRR;
     int speedFR;
     int speedFL;

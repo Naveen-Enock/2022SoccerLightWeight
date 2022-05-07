@@ -22,6 +22,7 @@ int initialOrientation = -1;
 double camAngle = -1;
 int buttonstate = -1;
 int startstate = -1;
+int tick = -1;
 
 void setup()
 {
@@ -34,53 +35,35 @@ void setup()
   digitalWrite(10, LOW);
   pinMode(36, INPUT_PULLUP);
 }
-
-int tick = 0;
 void runRobot()
 {
 
+  cam.camAverage();
   ballAngle.kickButton();
   ballAngle.Intake();
   ballAngle.Process();
   lineAvoidance.Process(ballAngle.ballpresent);
-  if (ballAngle.capture == true)
+  goal.Kick(cam.dist, ballAngle.capture, motor.correction);
+  if (cam.dist < 150)
   {
     goal.Process(initialOrientation, cam.buff);
     motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation() , goal.goalAngle, lineAvoidance.lineFR,lineAvoidance.lineRR,lineAvoidance.lineRL,lineAvoidance.lineFL);
-    goal.Kick(cam.dist);
+    tick = 1;
   }
-  else
+  else if (tick>0 && tick <= 2000)
+    {
+    goal.Process(initialOrientation, cam.buff);
+    motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation() , goal.goalAngle, lineAvoidance.lineFR,lineAvoidance.lineRR,lineAvoidance.lineRL,lineAvoidance.lineFL);
+
+    tick = tick+1;
+    }
+
+  if (tick>2000 || (cam.dist >= 150 && tick == -1))
   {
-
-
   motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation() , initialOrientation, lineAvoidance.lineFR,lineAvoidance.lineRR,lineAvoidance.lineRL,lineAvoidance.lineFL);
+  tick = -1;
   }
-  
 
-
-
-  
-  // if (ballAngle.Intake() == 1 && tick == 0)
-  // {
-  //   ballAngle.capture = true;
-  //   tick = 1;
-  // }
-
-  // else if (tick < 10000 && tick > 0)
-  // {
-  //   ballAngle.capture = true;
-  //   tick +=1;
-  // }
-  // else
-  // {
-  //   ballAngle.capture = false;
-  //   tick = 0;
-  // }
-  // Serial.print("Capture : ");
-  // Serial.println(ballAngle.capture);
-  // Serial.print("cam Angle : ");
-  //   Serial.println(camAngle);
-  
 }
 
 void loop()

@@ -6,13 +6,15 @@
 class Cam {
 	public:
         Cam();
-        double CamCalc();
+        int *angleAverage;
         double dist;
         double buff;
         double camVal;
+        double camAverage();
+        int *distAverage;
     private:
         
-        
+        double CamCalc();
         std::string buffer;
 
 };

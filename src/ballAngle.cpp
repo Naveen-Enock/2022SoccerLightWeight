@@ -79,10 +79,11 @@ void BallAngle::CalculateRobotAngle()
     // Serial.println(robotAngle);
 }
 
-int BallAngle::Intake()
+void BallAngle::Intake()
 {
-    
-    if (analogRead(14) < 150)
+    Serial.print("Intake : ");
+    Serial.println(analogRead(14));
+    if (analogRead(14) < 140)
     {
         capture = true;
     }

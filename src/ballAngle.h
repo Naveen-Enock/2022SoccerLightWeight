@@ -8,7 +8,7 @@ class BallAngle {
         double ballAngle;
         double highestValue;
         double robotAngle;
-        int Intake();
+        void Intake();
         bool capture = false;
         int kickState = 1;
         void kickButton();

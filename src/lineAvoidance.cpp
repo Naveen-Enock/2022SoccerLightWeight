@@ -11,6 +11,7 @@ LineAvoidance::LineAvoidance()
     anglebisc = -1;
     chord = -1;
     initialAngle = -1;
+    initialWait = 0;
 }
 
 void LineAvoidance::angle()
@@ -38,7 +39,7 @@ void LineAvoidance::angle()
         }
         // Serial.print(i);
         // Serial.print("line : ");
-        // Serial.println(sensorAngles[i]);
+        // Serial.println(lineValues[i]);
     }
     Serial.print("lowest : ");
     Serial.println(lowestval);
@@ -123,14 +124,14 @@ void LineAvoidance::Process(bool ball)
             angleDiff = 360 - angleDiff;
         }
 
-        if (angleDiff > 90 && angleDiff <= 180)
+        if (angleDiff > 110 && angleDiff <= 180)
         {
             lineAngle = anglebisc;
             Chord();
             chordlength = 5 - chord;
             
         }
-        else if (angleDiff < 90)
+        else if (angleDiff < 110)
         {
             lineAngle = anglebisc + 180;
             if (lineAngle >= 360)
@@ -140,18 +141,34 @@ void LineAvoidance::Process(bool ball)
             Chord();
             chordlength = chord;
         }
-
+Serial.print("Diff : ");
+Serial.println(angleDiff);
+Serial.print("Initial : ");
+Serial.println(initialAngle);
+initialWait = 0;
         lowestval = 1024;
         highestval = 0;
     }
     else if (highestval == 0 && lowestval == 1024)
     {
-        linepresent = false;
+        if(initialWait > 20)
+        {
         initialAngle = -1;
+        linepresent = false;
         lineAngle = 0;
         chordlength = 0;
         lowestval = 1024;
         highestval = 0;
+        }
+        else if(initialWait <= 20)
+        {
+            initialWait += 1;
+        linepresent = false;
+        lineAngle = 0;
+        chordlength = 0;
+
+        }
+
     }
 
     Power(ball);

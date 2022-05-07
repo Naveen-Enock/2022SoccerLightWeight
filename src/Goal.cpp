@@ -3,6 +3,8 @@
 Goal::Goal()
 {
     kickTimer = 0;
+    kickActivate = 1;
+    kickWait = 0;
 }
 void Goal::Process(int initialOrientation, double goalOrientation)
 {
@@ -12,6 +14,7 @@ void Goal::Process(int initialOrientation, double goalOrientation)
     }
 
     goalAngle = initialOrientation + goalOrientation;
+
     if (goalAngle > 360)
     {
         goalAngle = goalAngle - 360;
@@ -20,26 +23,59 @@ void Goal::Process(int initialOrientation, double goalOrientation)
     {
         goalAngle = goalAngle + 360;
     }
+
+    
 }
 
-void Goal::Kick(double goalDist)
+void Goal::Kick(double goalDist, bool capture, double correction)
 {
-    if (goalDist < 70)
+    if (capture == true && kickTimer >=0 && kickTimer <=200 && goalDist < 150)
     {
+        if (kickWait == 150 )
+        {
+      
 
-        if (kickTimer == 0)
-        {
-            digitalWrite(10, HIGH);
+            kickActivate = 0;
+
             kickTimer = kickTimer + 1;
-        }
         
+        }
+        else if(kickWait >= 0 && kickWait <150)
+        {
+            kickWait += 1;
+        }
+        else if(kickWait >150)
+        {
+            kickWait = 0;
+        }
+        Serial.print("kick: ");
+        Serial.println(kickWait);
     }
-    if (kickTimer > 0 && kickTimer <= 5000)
-        {
-            kickTimer = kickTimer + 1;
-        }
-    else if (kickTimer > 5000)
-        {
-            kickTimer = 0;
-        }
+
+    else if (kickTimer > 200 && kickTimer <= 2200)
+    {
+        kickActivate = 1;
+        kickTimer = kickTimer + 1;
+        kickWait += 1;
+    }
+
+    else if (kickTimer > 2200)
+    {
+        kickTimer = 0;
+    }
+    else{
+        kickWait = 0;
+        kickTimer = 0;
+    }
+    if (kickActivate == 0)
+    {
+        digitalWrite(10, HIGH);
+        kickActivate = 1;
+    }
+    else
+    {
+        digitalWrite(10, LOW);
+    }
+    Serial.print("kickTimer : ");
+    Serial.println(kickTimer);
 }

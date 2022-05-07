@@ -22,6 +22,7 @@ Motor::Motor()
     pinMode(controlRL, OUTPUT);
     pinMode(controlFR, OUTPUT);
     pinMode(controlFL, OUTPUT);
+    maxval = 0;
 };
 void Motor::Orientation(double orientation, double initialOrientation)
 {
@@ -66,19 +67,19 @@ void Motor::Orientation(double orientation, double initialOrientation)
     {
         correction = 1;
     }
-    if (correction<0.7 && correction >0)
-    {
-        correction = 0.7;
-    }
-    else if (correction>-0.7 && correction <0)
-    {
-        correction = -0.7;
-    }
+    // if (correction<0.5 && correction >0)
+    // {
+    //     correction = 0.5;
+    // }
+    // else if (correction>-0.5 && correction <0)
+    // {
+    //     correction = -0.5;
+    // }
     
     
 
-    // Serial.println("Correction : ");
-    // Serial.println(correction);
+    Serial.println("Correction : ");
+    Serial.println(correction);
 }
 void Motor::Move(bool ballpresent, double robotAngle, double orientation, double initialOrientation,double lineFR, double lineRR, double lineRL, double lineFL)
 {
@@ -94,7 +95,7 @@ void Motor::Move(bool ballpresent, double robotAngle, double orientation, double
     int dirFL = LOW;
     int dirRR = LOW;
     int dirRL = LOW;
-
+Orientation(orientation, initialOrientation);
     
     powerFR = sin(toRadians(robotAngle - 40));
     powerRR = sin(toRadians(robotAngle - 140));
@@ -108,20 +109,24 @@ void Motor::Move(bool ballpresent, double robotAngle, double orientation, double
         powerFL = 0;
     }
 
+powerFR = powerFR + correction;
+powerRR = powerRR + correction;
+powerRL = powerRL + correction;
+powerFL = powerFL + correction;
 
-    double maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
+    maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
 
     GetMotorDirectionAndSpeed(dirFR, powerFR, maxval);
     GetMotorDirectionAndSpeed(dirFL, powerFL, maxval);
     GetMotorDirectionAndSpeed(dirRR, powerRR, maxval);
     GetMotorDirectionAndSpeed(dirRL, powerRL, maxval);
 
-Orientation(orientation, initialOrientation);
 
-    powerFR = powerFR + correction+lineFR;
-    powerRR = powerRR + correction+lineRR;
-    powerRL = powerRL + correction+lineRL;
-    powerFL = powerFL + correction+lineFL;
+
+    powerFR = powerFR + lineFR;
+    powerRR = powerRR + lineRR;
+    powerRL = powerRL + lineRL;
+    powerFL = powerFL + lineFL;
     // Serial.print("Power FR : ");
     // Serial.println(powerFR);
     // Serial.println(lineFR);

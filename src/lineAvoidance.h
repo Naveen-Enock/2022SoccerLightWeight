@@ -29,4 +29,5 @@ class LineAvoidance {
     void angle();
     void Chord();
     void Power(bool ball);
+    int initialWait;
 };
