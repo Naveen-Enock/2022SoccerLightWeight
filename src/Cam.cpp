@@ -20,7 +20,7 @@ double Cam::CamCalc()
 
     for (int i = 0; i < Serial2.available(); i++)
     {
-      char read = Serial2.read();
+      read = Serial2.read();
       if (read == 'a')
       {
         dist = strtod(buffer.c_str(), NULL);
@@ -63,3 +63,8 @@ double Cam::camAverage()
   Serial.print("dist : ");
   Serial.println(dist);
 };
+
+double Cam::camSend(String role)
+{
+  Serial2.println(role);
+}

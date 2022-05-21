@@ -12,9 +12,11 @@ class Cam {
         double camVal;
         double camAverage();
         int *distAverage;
+        double camSend(String role);
     private:
         
         double CamCalc();
         std::string buffer;
+        char read;
 
 };

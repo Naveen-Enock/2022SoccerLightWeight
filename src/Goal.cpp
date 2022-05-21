@@ -5,6 +5,10 @@ Goal::Goal()
     kickTimer = 0;
     kickActivate = 1;
     kickWait = 0;
+    goalInitiate = 0;
+    realAngle = -1;
+    goalDiff = 0;
+
 }
 void Goal::Process(int initialOrientation, double goalOrientation)
 {
@@ -23,6 +27,25 @@ void Goal::Process(int initialOrientation, double goalOrientation)
     {
         goalAngle = goalAngle + 360;
     }
+    if (goalInitiate == 0)
+    {
+        realAngle = goalAngle;
+        goalInitiate += 1;
+    }
+    goalDiff = abs(goalAngle - realAngle);
+    if(goalDiff >180)
+    {
+        goalDiff = 360-goalDiff;
+    }
+    if (goalDiff<=10)
+    {
+        goalAngle = realAngle;
+    }
+    else if(goalDiff >10)
+    {
+        realAngle = goalAngle;
+    }
+    
 
     
 }

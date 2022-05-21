@@ -24,7 +24,7 @@ void BallAngle::Process()
             highestValue = sensorValues[i];
         }
     }
-    int realhighestVal = highestValue;
+    realhighestVal = highestValue;
     highestValue = highestValue / 1024;
     if (realhighestVal > 124)
     {

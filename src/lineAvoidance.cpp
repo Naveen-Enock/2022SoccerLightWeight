@@ -7,7 +7,7 @@
 LineAvoidance::LineAvoidance()
 {
     lowestval = 1024;
-    highestval = 0;
+    highestval = -1;
     anglebisc = -1;
     chord = -1;
     initialAngle = -1;
@@ -37,9 +37,9 @@ void LineAvoidance::angle()
         {
             highestval = sensorAngles[i];
         }
-        // Serial.print(i);
-        // Serial.print("line : ");
-        // Serial.println(lineValues[i]);
+        Serial.print(i);
+        Serial.print("line : ");
+        Serial.println(lineValues[i]);
     }
     Serial.print("lowest : ");
     Serial.println(lowestval);
@@ -66,6 +66,7 @@ void LineAvoidance::angle()
 void LineAvoidance::Chord()
 {
     chord = 2 * (1.25 * sin(toRadians(sensorAngle / 2)));
+
 }
 
 void LineAvoidance::Power(bool ball)
@@ -126,13 +127,20 @@ void LineAvoidance::Process(bool ball)
 
         if (angleDiff > 110 && angleDiff <= 180)
         {
+            lineSwitch = true;
             lineAngle = anglebisc;
+            anglebisc = anglebisc+180;
+            if(anglebisc > 360)
+            {
+                anglebisc = anglebisc - 360;
+            }
             Chord();
             chordlength = 5 - chord;
             
         }
         else if (angleDiff < 110)
         {
+            lineSwitch = false;
             lineAngle = anglebisc + 180;
             if (lineAngle >= 360)
             {
@@ -145,29 +153,20 @@ Serial.print("Diff : ");
 Serial.println(angleDiff);
 Serial.print("Initial : ");
 Serial.println(initialAngle);
-initialWait = 0;
+//initialWait = 0;
         lowestval = 1024;
-        highestval = 0;
+        highestval = -1;
     }
-    else if (highestval == 0 && lowestval == 1024)
+    else if (highestval == -1 && lowestval == 1024)
     {
-        if(initialWait > 20)
-        {
+
         initialAngle = -1;
         linepresent = false;
         lineAngle = 0;
         chordlength = 0;
         lowestval = 1024;
-        highestval = 0;
-        }
-        else if(initialWait <= 20)
-        {
-            initialWait += 1;
-        linepresent = false;
-        lineAngle = 0;
-        chordlength = 0;
+        highestval = -1;
 
-        }
 
     }
 

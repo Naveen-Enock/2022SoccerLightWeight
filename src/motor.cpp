@@ -108,12 +108,12 @@ Orientation(orientation, initialOrientation);
         powerRL = 0;
         powerFL = 0;
     }
-
-powerFR = powerFR + correction;
-powerRR = powerRR + correction;
-powerRL = powerRL + correction;
-powerFL = powerFL + correction;
-
+//Serial.println(correction);
+powerFR = powerFR ;
+powerRR = powerRR ;
+powerRL = powerRL ;
+powerFL = powerFL ;
+    
     maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
 
     GetMotorDirectionAndSpeed(dirFR, powerFR, maxval);
@@ -123,10 +123,22 @@ powerFL = powerFL + correction;
 
 
 
-    powerFR = powerFR + lineFR;
-    powerRR = powerRR + lineRR;
-    powerRL = powerRL + lineRL;
-    powerFL = powerFL + lineFL;
+    powerFR = powerFR + lineFR + correction;
+    powerRR = powerRR + lineRR + correction;
+    powerRL = powerRL + lineRL + correction;
+    powerFL = powerFL + lineFL + correction;
+    Serial.print("Power FR : ");
+    Serial.println(powerFR);
+    Serial.println(dirFR);
+    Serial.print("Power RR : ");
+    Serial.println(powerRR);
+    Serial.println(dirRR);  
+    Serial.print("Power RL : ");
+    Serial.println(powerRL); 
+    Serial.println(dirRL);
+    Serial.print("Power FL : ");
+    Serial.println(powerFL); 
+    Serial.println(dirFL);
     // Serial.print("Power FR : ");
     // Serial.println(powerFR);
     // Serial.println(lineFR);
@@ -149,18 +161,7 @@ maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
     GetMotorDirectionAndRealSpeed(dirRR, powerRR, maxval);
     GetMotorDirectionAndRealSpeed(dirRL, powerRL, maxval);
 
-    Serial.print("Power FR : ");
-    Serial.println(powerFR);
-    Serial.println(dirFR);
-    Serial.print("Power RR : ");
-    Serial.println(powerRR);
-    Serial.println(dirRR);  
-    Serial.print("Power RL : ");
-    Serial.println(powerRL); 
-    Serial.println(dirRL);
-    Serial.print("Power FL : ");
-    Serial.println(powerFL); 
-    Serial.println(dirFL);
+
 
     digitalWrite(controlRR, dirRR);
     digitalWrite(controlFR, dirFR);
@@ -205,7 +206,7 @@ if (maxValue == 0)
     }
 else{
 direction = power < 0 ? LOW : HIGH;
-power = 255 * abs(power) / maxValue;
+power = 255 * ((abs(power)) / maxValue);
 
 }
 }

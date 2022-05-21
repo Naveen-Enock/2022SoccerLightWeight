@@ -3,6 +3,7 @@
 class LineAvoidance {
   public: 
      LineAvoidance();  
+     bool lineSwitch;
       void Process(bool ball);
       int lowestval;
       int highestval;
@@ -19,6 +20,7 @@ class LineAvoidance {
       int angleDiff;
       int lineAngle;
       bool linepresent = false;
+      void angle();
 
         
 
@@ -26,7 +28,7 @@ class LineAvoidance {
     int *lineValues;
     int *sensorAngles;
     LineSensor lineSensor;
-    void angle();
+    
     void Chord();
     void Power(bool ball);
     int initialWait;

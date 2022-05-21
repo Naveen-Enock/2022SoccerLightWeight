@@ -13,6 +13,7 @@ class BallAngle {
         int kickState = 1;
         void kickButton();
         bool ballpresent = false;
+        int realhighestVal;
         
 
     private:
