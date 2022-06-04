@@ -46,7 +46,7 @@ void runRobot()
   {
     cam.camSend("1");
     ballAngle.Process();
-    xbee.role(ballAngle.realhighestVal);
+    xbee.role(ballAngle.xbeeHighVal);
     lineAvoidance.Process(ballAngle.ballpresent);
     defense.defense(lineAvoidance.anglebisc, ballAngle.ballAngle, lineAvoidance.linepresent, lineAvoidance.lineSwitch);
     motor.Move(ballAngle.ballpresent, defense.defenseAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL);
@@ -58,7 +58,7 @@ void runRobot()
     //ballAngle.kickButton();
     ballAngle.Intake();
     ballAngle.Process();
-    xbee.role(ballAngle.realhighestVal);
+    xbee.role(ballAngle.xbeeHighVal);
     lineAvoidance.Process(ballAngle.ballpresent);
     goal.Kick(cam.dist, ballAngle.capture, motor.correction);
     if (cam.dist < 150)
@@ -75,9 +75,9 @@ void runRobot()
 
 void loop()
 {
-  //delay(100);
+  //delay(500);
 
-  if (delayTick < 20)
+  if (delayTick < 2)
   {
     delayTick = delayTick + 1;
   }

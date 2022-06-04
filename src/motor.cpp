@@ -108,18 +108,18 @@ Orientation(orientation, initialOrientation);
         powerRL = 0;
         powerFL = 0;
     }
-//Serial.println(correction);
-powerFR = powerFR ;
-powerRR = powerRR ;
-powerRL = powerRL ;
-powerFL = powerFL ;
+Serial.println(correction);
+ powerFR = powerFR ;
+ powerRR = powerRR ;
+ powerRL = powerRL ;
+ powerFL = powerFL ;
     
-    maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
+     maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
 
-    GetMotorDirectionAndSpeed(dirFR, powerFR, maxval);
-    GetMotorDirectionAndSpeed(dirFL, powerFL, maxval);
-    GetMotorDirectionAndSpeed(dirRR, powerRR, maxval);
-    GetMotorDirectionAndSpeed(dirRL, powerRL, maxval);
+     GetMotorDirectionAndSpeed(dirFR, powerFR, maxval);
+     GetMotorDirectionAndSpeed(dirFL, powerFL, maxval);
+     GetMotorDirectionAndSpeed(dirRR, powerRR, maxval);
+     GetMotorDirectionAndSpeed(dirRL, powerRL, maxval);
 
 
 
@@ -127,18 +127,7 @@ powerFL = powerFL ;
     powerRR = powerRR + lineRR + correction;
     powerRL = powerRL + lineRL + correction;
     powerFL = powerFL + lineFL + correction;
-    Serial.print("Power FR : ");
-    Serial.println(powerFR);
-    Serial.println(dirFR);
-    Serial.print("Power RR : ");
-    Serial.println(powerRR);
-    Serial.println(dirRR);  
-    Serial.print("Power RL : ");
-    Serial.println(powerRL); 
-    Serial.println(dirRL);
-    Serial.print("Power FL : ");
-    Serial.println(powerFL); 
-    Serial.println(dirFL);
+
     // Serial.print("Power FR : ");
     // Serial.println(powerFR);
     // Serial.println(lineFR);
@@ -151,16 +140,39 @@ powerFL = powerFL ;
     // Serial.print("Power FL : ");
     // Serial.println(powerFL); 
     // Serial.println(lineFL);
-    
+        Serial.print("Power FR : ");
+    Serial.println(powerFR);
+    Serial.println(dirFR);
+    Serial.print("Power RR : ");
+    Serial.println(powerRR);
+    Serial.println(dirRR);  
+    Serial.print("Power RL : ");
+    Serial.println(powerRL); 
+    Serial.println(dirRL);
+    Serial.print("Power FL : ");
+    Serial.println(powerFL); 
+    Serial.println(dirFL);
 
 maxval = max(max(abs(powerFR), abs(powerFL)), max(abs(powerRR), abs(powerFL)));
 
-    
+    Serial.print("maxval : ");
+    Serial.println(maxval);
     GetMotorDirectionAndRealSpeed(dirFR, powerFR, maxval);
     GetMotorDirectionAndRealSpeed(dirFL, powerFL, maxval);
     GetMotorDirectionAndRealSpeed(dirRR, powerRR, maxval);
     GetMotorDirectionAndRealSpeed(dirRL, powerRL, maxval);
-
+    Serial.print("Power FR : ");
+    Serial.println(powerFR);
+    Serial.println(dirFR);
+    Serial.print("Power RR : ");
+    Serial.println(powerRR);
+    Serial.println(dirRR);  
+    Serial.print("Power RL : ");
+    Serial.println(powerRL); 
+    Serial.println(dirRL);
+    Serial.print("Power FL : ");
+    Serial.println(powerFL); 
+    Serial.println(dirFL);
 
 
     digitalWrite(controlRR, dirRR);
@@ -198,15 +210,10 @@ if (maxValue == 0)
 {
     power = 0;
 }
-    else if (maxValue <=1)
-    {
-        direction = power < 0 ? LOW : HIGH;
-        power = 255*abs(power);
-        
-    }
+
 else{
 direction = power < 0 ? LOW : HIGH;
-power = 255 * ((abs(power)) / maxValue);
+power = 255 * (abs(power) / maxValue);
 
 }
 }

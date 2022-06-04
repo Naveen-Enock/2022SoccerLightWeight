@@ -47,13 +47,13 @@ void Defense::defense(int lineAngle, double ballAngle, bool linePresent, bool li
         {
             ballAngle = 360 - ballAngle;
         }
-        if (ballAngle < 50)
+        if (ballAngle <60)
         {
-            ballAngle = 50;
+            ballAngle =60;
         }
-        else if (ballAngle > 70)
+        else if (ballAngle > 85)
         {
-            ballAngle = 70;
+            ballAngle = 85;
         }
         defenseAngle = lineAngle - ballAngle;
         if (lineSwitch == true)
@@ -74,13 +74,13 @@ void Defense::defense(int lineAngle, double ballAngle, bool linePresent, bool li
         {
             ballAngle = 360 - ballAngle;
         }
-        if (ballAngle < 50)
+        if (ballAngle <60)
         {
-            ballAngle = 50;
+            ballAngle =60;
         }
-        else if (ballAngle > 70)
+        else if (ballAngle > 85)
         {
-            ballAngle = 70;
+            ballAngle = 85;
         }
         defenseAngle = lineAngle + ballAngle;
         if (lineSwitch == true)
@@ -100,13 +100,13 @@ void Defense::defense(int lineAngle, double ballAngle, bool linePresent, bool li
         {
             ballAngle = 360 - ballAngle;
         }
-        if (ballAngle < 50)
+        if (ballAngle <60)
         {
-            ballAngle = 50;
+            ballAngle =60;
         }
-        else if (ballAngle > 70)
+        else if (ballAngle > 85)
         {
-            ballAngle = 70;
+            ballAngle = 85;
         }
         defenseAngle = lineAngle + ballAngle;
         if (lineSwitch == true)
@@ -125,13 +125,13 @@ void Defense::defense(int lineAngle, double ballAngle, bool linePresent, bool li
         {
             ballAngle = 360 - ballAngle;
         }
-        if (ballAngle < 50)
+        if (ballAngle <60)
         {
-            ballAngle = 50;
+            ballAngle =60;
         }
-        else if (ballAngle > 70)
+        else if (ballAngle > 85)
         {
-            ballAngle = 70;
+            ballAngle = 85;
         }
         defenseAngle = lineAngle - ballAngle;
         if (lineSwitch == true)

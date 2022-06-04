@@ -14,7 +14,7 @@ class BallAngle {
         void kickButton();
         bool ballpresent = false;
         int realhighestVal;
-        
+          int xbeeHighVal;
 
     private:
         BallSensor ballSensor;

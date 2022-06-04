@@ -37,9 +37,9 @@ void LineAvoidance::angle()
         {
             highestval = sensorAngles[i];
         }
-        Serial.print(i);
-        Serial.print("line : ");
-        Serial.println(lineValues[i]);
+        // Serial.print(i);
+        // Serial.print("line : ");
+        // Serial.println(lineValues[i]);
     }
     Serial.print("lowest : ");
     Serial.println(lowestval);

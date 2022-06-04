@@ -8,15 +8,15 @@ class Xbee
 public:
 Xbee();
 double ballDist;
-void role(double highestVal);
+void role(int highestVal);
 bool offenseRole;
 void proximity();
-
+int xbeeRole;
 
 private:
 
 
 char transmit;
 std::string transmitNum;
-void sendData(double highestVal);
+void sendData(double highestVal, bool robotRole);
 };

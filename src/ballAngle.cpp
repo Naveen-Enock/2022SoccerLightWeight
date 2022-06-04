@@ -25,6 +25,7 @@ void BallAngle::Process()
         }
     }
     realhighestVal = highestValue;
+
     highestValue = highestValue / 1024;
     if (realhighestVal > 124)
     {
@@ -37,18 +38,27 @@ void BallAngle::Process()
     double totalCos = 0;
     double totalSin = 0;
     int threshold = min(550, (realhighestVal - 150));
-
+    int count = 0;
+xbeeHighVal = 0;
     for (int i = 0; i < 24; i++)
     {
         if (sensorValues[i] < threshold)
         {
             sensorValues[i] = 0;
+        }else
+        {
+            count = count +1 ;
+            xbeeHighVal = xbeeHighVal + sensorValues[i];
         }
+        
 
         totalCos += sensorValues[i] * cosValues[i];
         totalSin += sensorValues[i] * sinValues[i];
     }
 
+    xbeeHighVal = xbeeHighVal / count;
+    Serial.print("highestVal");
+    Serial.println(xbeeHighVal);
     ballAngle = toDegrees(atan2(totalCos, totalSin));
     if (ballAngle < 0)
     {
@@ -56,8 +66,8 @@ void BallAngle::Process()
         ballAngle = ballAngle + 360;
     }
 
-    // Serial.print("Ballangle : ");
-    // Serial.println(ballAngle);
+    Serial.print("Ballangle : ");
+    Serial.println(ballAngle);
     CalculateRobotAngle();
 }
 
