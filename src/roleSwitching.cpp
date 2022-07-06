@@ -1,13 +1,13 @@
-#include <Xbee.h>
+#include <roleSwitching.h>
 
-Xbee::Xbee()
+Switching::Switching()
 {
 ballDist = 1025;
 transmitNum = "";
 offenseRole = false;
 }
 
-void Xbee::proximity()
+void Switching::proximity()
 {
 if (Serial8.available() > 0)
   {
@@ -40,7 +40,7 @@ if (Serial8.available() > 0)
  
 }
 
-void Xbee::sendData(double highestVal, bool robotRole)
+void Switching::sendData(double highestVal, bool robotRole)
 {
     Serial8.print(highestVal);
     Serial8.print("|");
@@ -48,7 +48,7 @@ void Xbee::sendData(double highestVal, bool robotRole)
     Serial8.println("a");
 }
 
-void Xbee::role(int highestVal) 
+void Switching::role(int highestVal) 
 {
     sendData(highestVal, offenseRole);
     proximity();

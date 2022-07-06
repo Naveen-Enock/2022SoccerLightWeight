@@ -10,7 +10,8 @@
 #include <lineAvoidance.h>
 #include <stdlib.h>
 #include <Defense.h>
-#include <Xbee.h>
+#include <roleSwitching.h>
+#include <calibration.h>
 
 BallAngle ballAngle;
 Motor motor;
@@ -20,13 +21,15 @@ Cam cam;
 Defense defense;
 Goal goal;
 LineAvoidance lineAvoidance;
-Xbee xbee;
+Switching xbee;
+Calibration lineCal;
 int initialOrientation = -1;
 
 double camAngle = -1;
 int buttonstate = -1;
 int startstate = -1;
 int delayTick = -1;
+int calState = -1;
 
 void setup()
 {
@@ -42,14 +45,15 @@ void setup()
 }
 void runRobot()
 {
-  if (xbee.offenseRole == false)
+  if (xbee.offenseRole == true)
   {
     cam.camSend("1");
+    cam.camAverage();
     ballAngle.Process();
     xbee.role(ballAngle.xbeeHighVal);
-    lineAvoidance.Process(ballAngle.ballpresent);
-    defense.defense(lineAvoidance.anglebisc, ballAngle.ballAngle, lineAvoidance.linepresent, lineAvoidance.lineSwitch);
-    motor.Move(ballAngle.ballpresent, defense.defenseAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL);
+    lineAvoidance.Process(ballAngle.ballpresent, lineCal.calVal);
+    defense.defense(lineAvoidance.projectionAngle, ballAngle.ballAngle,cam.buff,lineAvoidance.linepresent);
+    //motor.Move(ballAngle.ballpresent, defense.defenseAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle);
   }
   else
   {
@@ -59,23 +63,24 @@ void runRobot()
     ballAngle.Intake();
     ballAngle.Process();
     xbee.role(ballAngle.xbeeHighVal);
-    lineAvoidance.Process(ballAngle.ballpresent);
-    goal.Kick(cam.dist, ballAngle.capture, motor.correction);
-    if (cam.dist < 150)
-    {
-      goal.Process(initialOrientation, cam.buff);
-      motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), goal.goalAngle, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL);
-    }
-    else
-    {
-      motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL);
-    }
+    lineAvoidance.Process(ballAngle.ballpresent, lineCal.calVal);
+    //goal.Kick(cam.dist, ballAngle.capture, motor.correction);
+    motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle);
+    // if (cam.dist < 250)
+    // {
+    //   goal.Process(compassSensor.getOrientation(), cam.buff);
+    //   motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), goal.goalAngle, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle);
+    // }
+    // else
+    // {
+    //   motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle);
+    // }
   }
 }
 
 void loop()
 {
-  //delay(500);
+  //delay(1000);
 
   if (delayTick < 2)
   {
@@ -87,11 +92,14 @@ void loop()
     if (buttonstate == -1)
     {
       startstate = digitalRead(36);
+      calState = digitalRead(9);
       if (startstate == 0)
       {
-        buttonstate = startstate + 2;
+        buttonstate = 2;
       }
-
+      if(calState == 0){
+        //lineCal.calibrate(lineAvoidance.lineSensor.GetValues());
+      }
       
       Serial.println("press button to start");
       
@@ -102,6 +110,7 @@ void loop()
       initialOrientation = compassSensor.getOrientation();
       buttonstate = 1;
     }
+
     else if (buttonstate == 1)
     {
       runRobot();
@@ -111,12 +120,12 @@ void loop()
     else if (buttonstate == 0)
     {
       Serial.println("yo");
-      digitalWrite(28, HIGH);
-      digitalWrite(33, HIGH);
+      digitalWrite(4, LOW);
+      digitalWrite(33, LOW);
       analogWrite(29, 0);
-      analogWrite(15, 0);
-      digitalWrite(6, HIGH);
-      digitalWrite(4, HIGH);
+      analogWrite(28, 0);
+      digitalWrite(6, LOW);
+      digitalWrite(4, LOW);
       analogWrite(5, 0);
       analogWrite(3, 0);
       buttonstate = -1;

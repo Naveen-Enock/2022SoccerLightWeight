@@ -2,25 +2,27 @@
 #include <string>
 #include <Adafruit_I2CDevice.h>
 #include <iostream>
+#include <trig.h>
 
 class Defense
 {
 public:
     Defense();
-    void defense(int lineAngle, double ballAngle, bool linePresent, bool lineSwitch);
+    void defense(int lineAngle, double ballAngle,int goalAngle, bool linePresent);
     double defenseAngle;
     double newLineAngle;
 
 private:
-    double bVal;
-    double sVal;
-    double oppositeAngle;
-    double smalloppositeAngle;
-    double bigoppositeAngle;
-    int realballAngle;
-    double realoppositeAngle;
-    int reAlign;
-    bool reallineSwitch;
-    int angleAdd;
-    int compareAngle;
+  double ballAngleX;
+  double ballAngleY;
+  double goalAngleX;
+  double goalAngleY;
+  double lineAngleX;
+  double lineAngleY;
+  double dotProduct;
+  double denominator;
+  double robotAngleX;
+  double robotAngleY;
+  
+
 };

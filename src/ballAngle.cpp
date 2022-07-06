@@ -85,8 +85,8 @@ void BallAngle::CalculateRobotAngle()
     // Serial.print("orbit : ");
     // Serial.println(orbitvalue);
     robotAngle = ballAngle + (ballAngle > 180 ? -1 : 1) * (orbitvalue * dampenVal);
-    // Serial.print("robotAngle : ");
-    // Serial.println(robotAngle);
+    Serial.print("robotAngle : ");
+    Serial.println(robotAngle);
 }
 
 void BallAngle::Intake()

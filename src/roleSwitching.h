@@ -3,10 +3,10 @@
 #include <Adafruit_I2CDevice.h>
 #include <iostream>
 
-class Xbee 
+class Switching 
 {
 public:
-Xbee();
+Switching();
 double ballDist;
 void role(int highestVal);
 bool offenseRole;

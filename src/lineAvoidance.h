@@ -1,10 +1,11 @@
 #include <lineSensor.h>
+#include <calibration.h>
 
 class LineAvoidance {
   public: 
      LineAvoidance();  
      bool lineSwitch;
-      void Process(bool ball);
+      void Process(bool ball, int *calibrateVal);
       int lowestval;
       int highestval;
       int sensorAngle;
@@ -20,14 +21,22 @@ class LineAvoidance {
       int angleDiff;
       int lineAngle;
       bool linepresent = false;
-      void angle();
+      void angle(int *calibrateVal);
+      
+      bool projectionState;
+      int projectionAngle;
+      bool outOfBounds;
+      int *lineValues;
+       //LineSensor lineSensor;
 
         
 
     private:
-    int *lineValues;
+    
     int *sensorAngles;
-    LineSensor lineSensor;
+    int *calVal;
+   
+    
     
     void Chord();
     void Power(bool ball);

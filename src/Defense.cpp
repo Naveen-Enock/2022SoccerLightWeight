@@ -2,208 +2,30 @@
 
 Defense::Defense()
 {
-    newLineAngle = 180;
-    compareAngle = 180;
+   
 }
 
-void Defense::defense(int lineAngle, double ballAngle, bool linePresent, bool lineSwitch)
+void Defense::defense(int lineAngle, double ballAngle,int goalAngle, bool linePresent)
 {
-    realballAngle = ballAngle;
-    if (realballAngle < 180)
-    {
-        realballAngle = realballAngle + 360;
-    }
-    bVal = lineAngle + 90;
-    sVal = lineAngle - 90;
-    oppositeAngle = lineAngle + 180;
+    ballAngleX = sin(toRadians(ballAngle));
+    ballAngleY = cos(toRadians(ballAngle));
+    goalAngleX = sin(toRadians(goalAngle));
+    goalAngleY = cos(toRadians(goalAngle));
 
-    if (oppositeAngle > 360)
-    {
-        oppositeAngle = oppositeAngle - 360;
-    }
-    smalloppositeAngle = oppositeAngle;
-    bigoppositeAngle = oppositeAngle;
-    if (bVal > 360)
-    {
-        bVal = bVal - 360;
-    }
-    if (sVal < 0)
-    {
-        sVal = sVal + 360;
-    }
-    if (smalloppositeAngle > 180)
-    {
-        smalloppositeAngle = smalloppositeAngle - 360;
-    }
-    if (bigoppositeAngle < 180)
-    {
-        bigoppositeAngle = bigoppositeAngle + 360;
-    }
-    if (ballAngle < sVal && ballAngle > smalloppositeAngle)
-    {
-
-        ballAngle = abs(oppositeAngle - ballAngle);
-        if (ballAngle > 180)
-        {
-            ballAngle = 360 - ballAngle;
-        }
-        if (ballAngle <60)
-        {
-            ballAngle =60;
-        }
-        else if (ballAngle > 85)
-        {
-            ballAngle = 85;
-        }
-        defenseAngle = lineAngle - ballAngle;
-        if (lineSwitch == true)
-        {
-            defenseAngle = defenseAngle - 90;
-        }
-        if (defenseAngle < 0)
-        {
-            defenseAngle = defenseAngle + 360;
-        }
-    }
-
-    else if (ballAngle > bVal && ballAngle < bigoppositeAngle)
-    {
-
-        ballAngle = abs(oppositeAngle - ballAngle);
-        if (ballAngle > 180)
-        {
-            ballAngle = 360 - ballAngle;
-        }
-        if (ballAngle <60)
-        {
-            ballAngle =60;
-        }
-        else if (ballAngle > 85)
-        {
-            ballAngle = 85;
-        }
-        defenseAngle = lineAngle + ballAngle;
-        if (lineSwitch == true)
-        {
-            defenseAngle = defenseAngle + 90;
-        }
-        if (defenseAngle > 360)
-        {
-            defenseAngle = defenseAngle - 360;
-        }
-    }
-    else if (ballAngle < bVal && ballAngle > lineAngle)
-    {
-        ballAngle = abs(lineAngle - ballAngle);
-
-        if (ballAngle > 180)
-        {
-            ballAngle = 360 - ballAngle;
-        }
-        if (ballAngle <60)
-        {
-            ballAngle =60;
-        }
-        else if (ballAngle > 85)
-        {
-            ballAngle = 85;
-        }
-        defenseAngle = lineAngle + ballAngle;
-        if (lineSwitch == true)
-        {
-            defenseAngle = defenseAngle + 90;
-        }
-        if (defenseAngle > 360)
-        {
-            defenseAngle = defenseAngle - 360;
-        }
-    }
-    else if (ballAngle > sVal && ballAngle < lineAngle)
-    {
-        ballAngle = abs(lineAngle - ballAngle);
-        if (ballAngle > 180)
-        {
-            ballAngle = 360 - ballAngle;
-        }
-        if (ballAngle <60)
-        {
-            ballAngle =60;
-        }
-        else if (ballAngle > 85)
-        {
-            ballAngle = 85;
-        }
-        defenseAngle = lineAngle - ballAngle;
-        if (lineSwitch == true)
-        {
-            defenseAngle = defenseAngle - 90;
-        }
-        if (defenseAngle < 0)
-        {
-            defenseAngle = defenseAngle + 360;
-        }
-    }
-
-    if (linePresent == true)
-    {
-        newLineAngle = lineAngle;
-        realoppositeAngle = bigoppositeAngle;
-        reallineSwitch = lineSwitch;
-    }
-    else if (linePresent == false)
-    {
-        reAlign = 180 - newLineAngle;
-        angleAdd = max(0, reAlign + 45);
+    robotAngleX = ballAngleX + goalAngleX;
+    robotAngleY = ballAngleY + goalAngleY;
 
 
+    if(linePresent == true){
+        lineAngleX = sin(toRadians(lineAngle));
+        lineAngleY = cos(toRadians(lineAngle));
 
-        if (realballAngle < realoppositeAngle)
-        {
-        if (reallineSwitch == true)
-        {
-            
-            newLineAngle = newLineAngle + 180;
-            reAlign = 360 - newLineAngle;
-            angleAdd = min(45,reAlign-45);
-            
-        }
-            defenseAngle = newLineAngle + angleAdd;
-            if (defenseAngle > 360)
-            {
-                defenseAngle = defenseAngle - 360;
-            }
-        }
-        else
-        {
-
-            angleAdd = max(-45, reAlign - 45);
-        if (reallineSwitch == true)
-        {
-            
-            newLineAngle = newLineAngle + 180;
-            reAlign = 360 - newLineAngle;
-            angleAdd = max(-45,reAlign+45);
-            
-        }
-            defenseAngle = newLineAngle + angleAdd;
-            if(defenseAngle>360)
-            {
-                defenseAngle = defenseAngle - 360;
-            }
-        }
+dotProduct = (robotAngleX*lineAngleX)+(robotAngleY*lineAngleY);
+denominator = pow(lineAngleX,2)+pow(lineAngleY,2);
+robotAngleX = (dotProduct/denominator)*lineAngleX;
+robotAngleY = (dotProduct/denominator)*lineAngleY;
     }
-    Serial.print("DefenseAngle: ");
-    Serial.println(defenseAngle);
-    Serial.print("ballAngle : ");
-    Serial.println(ballAngle);
-    Serial.print("lineAngle : ");
-    Serial.println(lineAngle);
-    Serial.print("big Val: ");
-    Serial.println(bVal);
-    Serial.print("Smal Val : ");
-    Serial.println(sVal);
-    Serial.print("bigOpposite : ");
-    Serial.println(bigoppositeAngle);
-    Serial.print("smallOpposite : ");
-    Serial.println(smalloppositeAngle);
+
+    defenseAngle = toDegrees(atan2(robotAngleX,robotAngleY));
+    
 }
