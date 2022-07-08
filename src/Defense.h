@@ -17,8 +17,8 @@ private:
   double ballAngleY;
   double goalAngleX;
   double goalAngleY;
-  double lineAngleX;
-  double lineAngleY;
+  double vectorX;
+  double vectorY;
   double dotProduct;
   double denominator;
   double robotAngleX;

@@ -1,4 +1,4 @@
-#include <lineSensor.h>
+
 
 
 
@@ -6,11 +6,11 @@ class Calibration{
 
 public:
 Calibration();
-void calibrate(int *calValues);
+void calibrate(int *lineVal);
 int *calVal;
 
 
 private:
-int *lineValues;
+
 //LineSensor calSensor;
 };

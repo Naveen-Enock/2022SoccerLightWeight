@@ -16,26 +16,26 @@ LineAvoidance::LineAvoidance()
     outOfBounds = false;
 }
 
-void LineAvoidance::angle(int *calibrateVal)
+void LineAvoidance::angle(int *calibrateVal, int *lineVal, int *sensorVal)
 {
     lowestval = 1024;
     highestval = -1;
-    lineValues = lineSensor.GetValues();
-    sensorAngles = lineSensor.LineAngle();
-    calVal = calibrateVal;
+    lineValues = lineVal;
+    sensorAngles = sensorVal;
+    
     linepresent = false;
     for (int i = 0; i < 24; i++)
     {
-        calVal[i] += 10;
-        if (lineValues[i] < calVal[i])
+        
+        if (lineValues[i] < calibrateVal[i])
         {
 
             sensorAngles[i] = -1;
   
         }
-                  Serial.print(i);
-        Serial.print("line : ");
-        Serial.println(sensorAngles[i]);
+        //           Serial.print(i);
+        // Serial.print("line : ");
+        // Serial.println(calibrateVal[i]);
         if (lowestval > sensorAngles[i] && sensorAngles[i] != -1)
         {
             lowestval = sensorAngles[i];
@@ -48,9 +48,9 @@ void LineAvoidance::angle(int *calibrateVal)
         {
             linepresent = true;
         }
-        // Serial.print(i);
-        // Serial.print("line : ");
-        // Serial.println(lineValues[i]);
+         Serial.print(i);
+         Serial.print("line : ");
+         Serial.println(lineValues[i]);
     }
     Serial.print("lowest : ");
     Serial.println(lowestval);
@@ -117,9 +117,9 @@ void LineAvoidance::Power(bool ball)
     // Serial.println(lineFL);
 }
 
-void LineAvoidance::Process(bool ball, int *calibrateVal)
+void LineAvoidance::Process(bool ball, int *calibrateVal, int *lineVal, int *sensorVal)
 {
-    angle(calibrateVal);
+    angle(calibrateVal, lineVal, sensorVal);
     if (linepresent == true)
     {
         outOfBounds = false;
@@ -174,15 +174,16 @@ void LineAvoidance::Process(bool ball, int *calibrateVal)
         lineRL = 0;
         lineFL = 0;
         projectionState = false;
-
-        if (chordlength > 0 && chordlength < 0.5)
-        {
-            projectionState = true;
-            projectionAngle = anglebisc + 90;
-            if (projectionAngle > 360)
+projectionAngle = anglebisc + 90;
+  if (projectionAngle > 360)
             {
                 projectionAngle = projectionAngle - 360;
             }
+        if (chordlength > 0 && chordlength < 0.5)
+        {
+            projectionState = true;
+            
+       
              Serial.print("projectionAngle : ");
         Serial.println(projectionAngle);
         }

@@ -52,7 +52,7 @@ void Switching::role(int highestVal)
 {
     sendData(highestVal, offenseRole);
     proximity();
-    offenseRole = true;
+    
 if(highestVal>ballDist)
 {
 offenseRole = true;

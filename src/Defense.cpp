@@ -2,10 +2,9 @@
 
 Defense::Defense()
 {
-   
 }
 
-void Defense::defense(int lineAngle, double ballAngle,int goalAngle, bool linePresent)
+void Defense::defense(int lineAngle, double ballAngle, int goalAngle, bool linePresent)
 {
     ballAngleX = sin(toRadians(ballAngle));
     ballAngleY = cos(toRadians(ballAngle));
@@ -15,17 +14,34 @@ void Defense::defense(int lineAngle, double ballAngle,int goalAngle, bool linePr
     robotAngleX = ballAngleX + goalAngleX;
     robotAngleY = ballAngleY + goalAngleY;
 
+    defenseAngle = toDegrees(atan2(robotAngleX, robotAngleY));
+    if (defenseAngle < 0)
+    {
 
-    if(linePresent == true){
-        lineAngleX = sin(toRadians(lineAngle));
-        lineAngleY = cos(toRadians(lineAngle));
-
-dotProduct = (robotAngleX*lineAngleX)+(robotAngleY*lineAngleY);
-denominator = pow(lineAngleX,2)+pow(lineAngleY,2);
-robotAngleX = (dotProduct/denominator)*lineAngleX;
-robotAngleY = (dotProduct/denominator)*lineAngleY;
+        defenseAngle = defenseAngle + 360;
     }
 
-    defenseAngle = toDegrees(atan2(robotAngleX,robotAngleY));
-    
+    if (defenseAngle > 280 || defenseAngle < 80)
+    {
+        vectorX = sin(toRadians(90));
+        vectorY = cos(toRadians(90));
+
+        dotProduct = (robotAngleX * vectorX) + (robotAngleY * vectorY);
+        denominator = pow(vectorX, 2) + pow(vectorY, 2);
+        robotAngleX = (dotProduct / denominator) * vectorX;
+        robotAngleY = (dotProduct / denominator) * vectorY;
+
+        defenseAngle = toDegrees(atan2(robotAngleX, robotAngleY));
+        if (defenseAngle < 0)
+        {
+
+            defenseAngle = defenseAngle + 360;
+        }
+    }
+    Serial.print("defense angle : ");
+    Serial.println(defenseAngle);
+    Serial.print("ball angle: ");
+    Serial.println(ballAngle);
+    Serial.print("goal angle: ");
+    Serial.println(goalAngle);
 }

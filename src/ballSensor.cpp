@@ -62,7 +62,10 @@ int *BallSensor::GetValues()
         }
         
         irval[i] = val;
-        irval[17] = (irval[16]+irval[18])/2;
+               //  Serial.print(i);
+        // Serial.print(" Ball sensor : ");
+        // Serial.println(val);
+        // irval[17] = (irval[16]+irval[18])/2;
 
     }
 

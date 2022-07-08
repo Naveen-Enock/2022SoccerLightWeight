@@ -52,9 +52,9 @@ int *LineSensor::GetValues()
         }
 
         lineValues[i] = val;
-        // Serial.print(i);
-        // Serial.print(" Line sensor : ");
-        // Serial.println(val);
+        //  Serial.print(i);
+        //  Serial.print(" Line sensor : ");
+        //  Serial.println(val);
     }
 
     return lineValues;

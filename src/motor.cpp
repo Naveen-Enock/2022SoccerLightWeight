@@ -14,6 +14,8 @@ Motor::Motor()
     controlFR = 15;
     controlFL = 4;
     controlRL = 33;
+    
+    
     pinMode(speedFR, OUTPUT);
     pinMode(speedFL, OUTPUT);
     pinMode(speedRR, OUTPUT);
