@@ -7,7 +7,7 @@ class Motor
 
 public:
     Motor();
-    void Move(bool ballpresent, double robotAngle,double orientation, double initialOrientation, double lineFR, double lineRR, double lineRL, double lineFL, bool projectionState, int projectionAngle);
+    void Move(bool ballpresent, double robotAngle,double orientation, double initialOrientation, double lineFR, double lineRR, double lineRL, double lineFL, bool projectionState, int projectionAngle, bool defenseStop);
     double correction;
     double robotX;
     double robotY;

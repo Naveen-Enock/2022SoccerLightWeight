@@ -8,9 +8,10 @@ class Defense
 {
 public:
     Defense();
-    void defense(int lineAngle, double ballAngle,int goalAngle, bool linePresent);
+    void defense(double highestVal, double ballAngle,int goalAngle, bool linePresent, int initialOrientation);
     double defenseAngle;
     double newLineAngle;
+    boolean stop;
 
 private:
   double ballAngleX;
@@ -23,6 +24,9 @@ private:
   double denominator;
   double robotAngleX;
   double robotAngleY;
+  int defenseTick;
+  bool findLine;
+  double angleDiff;
   
 
 };

@@ -10,9 +10,14 @@ Goal::Goal()
     goalDiff = 0;
 
 }
-void Goal::Process(int initialOrientation, double goalOrientation, bool offense)
+void Goal::Process(int Orientation, double goalOrientation, int initialOrientation)
 {
 
+   if(goalOrientation ==-5){
+
+        goalAngle = initialOrientation;
+   }
+   else{
     if (goalOrientation > 180)
     {
         goalOrientation = goalOrientation - 360;
@@ -27,14 +32,63 @@ void Goal::Process(int initialOrientation, double goalOrientation, bool offense)
 //     goalOrientation = 50;
 // }
 
-if(goalOrientation <= 5 && goalOrientation >=-5)
-{
-    goalOrientation = 0;
+
+
+
+if(goalOrientation <10 && goalOrientation > 2){
+    goalAngle = Orientation + 10;
+}
+else if(goalOrientation >-10 && goalOrientation < -2){
+    goalAngle = Orientation - 10;
+}
+else if(goalOrientation <25 && goalOrientation >= 10){
+    goalAngle = Orientation + 25;
+}
+else if(goalOrientation >-25 && goalOrientation <= -10){
+    goalAngle = Orientation - 25;
+}
+else if(goalOrientation <35 && goalOrientation >= 25){
+    goalAngle = Orientation + 35;
+}
+else if(goalOrientation >-35 && goalOrientation <= -25){
+    goalAngle = Orientation - 35;
+}
+else if(goalOrientation <45 && goalOrientation >= 35){
+    goalAngle = Orientation + 45;
+}
+else if(goalOrientation >-45 && goalOrientation <= -35){
+    goalAngle = Orientation - 45;
+}
+else if(goalOrientation <55 && goalOrientation >= 45){
+    goalAngle = Orientation + 55;
+}
+else if(goalOrientation >-55 && goalOrientation <= -45){
+    goalAngle = Orientation - 55;
+}
+else if(goalOrientation <65 && goalOrientation >= 55){
+    goalAngle = Orientation + 65;
+}
+else if(goalOrientation >-65 && goalOrientation <= -55){
+    goalAngle = Orientation - 65;
+}
+else if(goalOrientation <75 && goalOrientation >= 65){
+    goalAngle = Orientation + 75;
+}
+else if(goalOrientation >-75 && goalOrientation <= -65){
+    goalAngle = Orientation - 75;
+}
+else if(goalOrientation <85 && goalOrientation >= 75){
+    goalAngle = Orientation + 85;
+}
+else if(goalOrientation >-85 && goalOrientation <= -75){
+    goalAngle = Orientation - 85;
+}
+else{
+    goalAngle = Orientation;
 }
 
+    
 
-
-    goalAngle = initialOrientation + goalOrientation;
 
     if (goalAngle > 360)
     {
@@ -44,20 +98,9 @@ if(goalOrientation <= 5 && goalOrientation >=-5)
     {
         goalAngle = goalAngle + 360;
     }
-   if(goalOrientation ==-5){
-       if(offense == false){
-       goalAngle = initialOrientation+180;}
-       else
-       {
-           goalAngle = initialOrientation;
-       }
-       
-       if(goalAngle >360){
-           goalAngle = goalAngle-360;
-       }
    }
     Serial.print("goal Angle : ");
-    Serial.println(goalOrientation);
+    Serial.println(goalAngle);
     
 
     

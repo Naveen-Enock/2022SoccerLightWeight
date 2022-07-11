@@ -12,11 +12,11 @@ void role(int highestVal);
 bool offenseRole;
 void proximity();
 int xbeeRole;
-
+void sendData(double highestVal, bool robotRole);
 private:
 
 
 char transmit;
 std::string transmitNum;
-void sendData(double highestVal, bool robotRole);
+
 };

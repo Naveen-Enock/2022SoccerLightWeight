@@ -48,9 +48,9 @@ void LineAvoidance::angle(int *calibrateVal, int *lineVal, int *sensorVal)
         {
             linepresent = true;
         }
-         Serial.print(i);
-         Serial.print("line : ");
-         Serial.println(lineValues[i]);
+        //  Serial.print(i);
+        //  Serial.print("line : ");
+        //  Serial.println(lineValues[i]);
     }
     Serial.print("lowest : ");
     Serial.println(lowestval);

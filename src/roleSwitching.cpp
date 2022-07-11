@@ -4,7 +4,7 @@ Switching::Switching()
 {
 ballDist = 1025;
 transmitNum = "";
-offenseRole = false;
+offenseRole = true;
 }
 
 void Switching::proximity()
@@ -53,14 +53,14 @@ void Switching::role(int highestVal)
     sendData(highestVal, offenseRole);
     proximity();
     
-if(highestVal>ballDist)
-{
-offenseRole = true;
-}
-else if(ballDist>highestVal)
-{
-  offenseRole = false;
-}
+// if(highestVal>ballDist)
+// {
+// offenseRole = true;
+// }
+// else if(ballDist>highestVal)
+// {
+//   offenseRole = false;
+// }
 
 
 }

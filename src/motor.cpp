@@ -100,7 +100,7 @@ if(robotAngle < 0)
 // Serial.print("Robot Angle(Motor) : ");
 // Serial.println(robotAngle);
 }
-void Motor::Move(bool ballpresent, double robotAngle, double orientation, double initialOrientation,double lineFR, double lineRR, double lineRL, double lineFL, bool projectionState, int projectionAngle)
+void Motor::Move(bool ballpresent, double robotAngle, double orientation, double initialOrientation,double lineFR, double lineRR, double lineRL, double lineFL, bool projectionState, int projectionAngle, bool defenseStop)
 {
 
 
@@ -127,12 +127,17 @@ Serial.println(robotAngle);
     powerRR = sin(toRadians(robotAngle - 130));
     powerRL = sin(toRadians(robotAngle - 230));
     powerFL = sin(toRadians(robotAngle - 310));
-    if (ballpresent == false)
+    if (ballpresent == false||defenseStop == true)
     {
         powerFR = 0;
         powerRR = 0;
         powerRL = 0;
         powerFL = 0;
+        correction = 0;
+        lineFR = 0;
+        lineFL = 0;
+        lineRR = 0;
+        lineRL = 0;
     }
 //Serial.println(correction);
 

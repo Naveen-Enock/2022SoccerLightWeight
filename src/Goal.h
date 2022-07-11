@@ -2,7 +2,7 @@ class Goal
 {
 public:
 Goal();
-void Process(int initialOrientation, double goalOrientation, bool offense);
+void Process(int Orientation, double goalOrientation, int initialOrientation);
 double goalAngle;
 void Kick(double goalDist,bool capture, double correction);
 
@@ -13,4 +13,5 @@ int kickWait;
 int goalInitiate;
 double realAngle;
 double goalDiff;
+int placeHolder;
 };

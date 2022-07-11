@@ -2,10 +2,22 @@
 
 Defense::Defense()
 {
+    defenseTick = 0;
+    findLine = false;
+    stop = false;
 }
 
-void Defense::defense(int lineAngle, double ballAngle, int goalAngle, bool linePresent)
+void Defense::defense(double highestVal, double ballAngle, int goalAngle, bool linePresent, int initialOrientation)
 {
+
+       if(goalAngle ==-5){
+
+           goalAngle = initialOrientation + 180;
+       }
+       
+       if(goalAngle >360){
+           goalAngle = goalAngle-360;
+       }
     ballAngleX = sin(toRadians(ballAngle));
     ballAngleY = cos(toRadians(ballAngle));
     goalAngleX = sin(toRadians(goalAngle));
@@ -34,9 +46,38 @@ void Defense::defense(int lineAngle, double ballAngle, int goalAngle, bool lineP
         defenseAngle = toDegrees(atan2(robotAngleX, robotAngleY));
         if (defenseAngle < 0)
         {
-
             defenseAngle = defenseAngle + 360;
         }
+
+    }
+
+    if(linePresent==false && highestVal < 600 && defenseTick > 20000){
+findLine = true;
+
+    }
+    if (findLine == true)
+    {
+       defenseAngle = 180;
+       if(linePresent == true){
+           findLine = false;
+           defenseTick = 0;
+       }
+    }
+    else{
+    ++defenseTick;
+    }
+
+    angleDiff = abs(ballAngle - goalAngle);
+         if (angleDiff > 180)
+        {
+            angleDiff = 360 - angleDiff;
+        }
+    if((angleDiff > 180 && angleDiff < 188)||(angleDiff<=180 && angleDiff>172))
+    {
+        stop = true;
+    }
+    else{
+        stop = false;
     }
     Serial.print("defense angle : ");
     Serial.println(defenseAngle);

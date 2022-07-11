@@ -47,19 +47,22 @@ void setup()
 }
 void runRobot()
 {
-  if (xbee.offenseRole == true)
+
+  if (xbee.offenseRole == false)
   {
-    cam.camSend("1");
+ 
+
     cam.camAverage();
+
     ballAngle.Process();
     xbee.role(ballAngle.xbeeHighVal);
     lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle());
-    defense.defense(lineAvoidance.projectionAngle, ballAngle.ballAngle,cam.buff,lineAvoidance.linepresent);
-    motor.Move(ballAngle.ballpresent, defense.defenseAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle);
+    defense.defense(lineAvoidance.projectionAngle, ballAngle.ballAngle,cam.buff,lineAvoidance.linepresent, initialOrientation);
+    motor.Move(ballAngle.ballpresent, defense.defenseAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle, defense.stop);
   }
   else
   {
-    cam.camSend("1");
+
     cam.camAverage();
     //ballAngle.kickButton();
     ballAngle.Intake();
@@ -67,9 +70,11 @@ void runRobot()
     xbee.role(ballAngle.xbeeHighVal);
     lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle());
     //goal.Kick(cam.dist, ballAngle.capture, motor.correction);
-   goal.Process(initialOrientation, cam.buff, xbee.offenseRole);
+    defense.stop = false;
+    Serial.println(cam.buff2);
+   goal.Process(compassSensor.getOrientation(), cam.buff2, initialOrientation);
       
-    motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), goal.goalAngle, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle);
+    motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), goal.goalAngle , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
 
   }
 }
@@ -98,7 +103,7 @@ void loop()
       }
       
       Serial.println("press button to start");
-      
+   
 
     }
 
