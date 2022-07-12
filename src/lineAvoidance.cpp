@@ -49,8 +49,8 @@ void LineAvoidance::angle(int *calibrateVal, int *lineVal, int *sensorVal)
             linepresent = true;
         }
         //  Serial.print(i);
-        //  Serial.print("line : ");
-        //  Serial.println(lineValues[i]);
+        //   Serial.print("line : ");
+        //   Serial.println(lineValues[i]);
     }
     Serial.print("lowest : ");
     Serial.println(lowestval);
@@ -117,7 +117,7 @@ void LineAvoidance::Power(bool ball)
     // Serial.println(lineFL);
 }
 
-void LineAvoidance::Process(bool ball, int *calibrateVal, int *lineVal, int *sensorVal)
+void LineAvoidance::Process(bool ball, int *calibrateVal, int *lineVal, int *sensorVal, double chordThreshold)
 {
     angle(calibrateVal, lineVal, sensorVal);
     if (linepresent == true)
@@ -179,7 +179,7 @@ projectionAngle = anglebisc + 90;
             {
                 projectionAngle = projectionAngle - 360;
             }
-        if (chordlength > 0 && chordlength < 0.5)
+        if (chordlength > 0 && chordlength < chordThreshold)
         {
             projectionState = true;
             
@@ -187,7 +187,7 @@ projectionAngle = anglebisc + 90;
              Serial.print("projectionAngle : ");
         Serial.println(projectionAngle);
         }
-        else if (chordlength >= 0.5)
+        else if (chordlength >= chordThreshold)
         {
             Power(ball);
         }

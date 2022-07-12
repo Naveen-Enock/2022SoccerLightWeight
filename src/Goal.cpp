@@ -32,63 +32,14 @@ void Goal::Process(int Orientation, double goalOrientation, int initialOrientati
 //     goalOrientation = 50;
 // }
 
-
-
-
-if(goalOrientation <10 && goalOrientation > 2){
-    goalAngle = Orientation + 10;
-}
-else if(goalOrientation >-10 && goalOrientation < -2){
-    goalAngle = Orientation - 10;
-}
-else if(goalOrientation <25 && goalOrientation >= 10){
-    goalAngle = Orientation + 25;
-}
-else if(goalOrientation >-25 && goalOrientation <= -10){
-    goalAngle = Orientation - 25;
-}
-else if(goalOrientation <35 && goalOrientation >= 25){
-    goalAngle = Orientation + 35;
-}
-else if(goalOrientation >-35 && goalOrientation <= -25){
-    goalAngle = Orientation - 35;
-}
-else if(goalOrientation <45 && goalOrientation >= 35){
-    goalAngle = Orientation + 45;
-}
-else if(goalOrientation >-45 && goalOrientation <= -35){
-    goalAngle = Orientation - 45;
-}
-else if(goalOrientation <55 && goalOrientation >= 45){
-    goalAngle = Orientation + 55;
-}
-else if(goalOrientation >-55 && goalOrientation <= -45){
-    goalAngle = Orientation - 55;
-}
-else if(goalOrientation <65 && goalOrientation >= 55){
-    goalAngle = Orientation + 65;
-}
-else if(goalOrientation >-65 && goalOrientation <= -55){
-    goalAngle = Orientation - 65;
-}
-else if(goalOrientation <75 && goalOrientation >= 65){
-    goalAngle = Orientation + 75;
-}
-else if(goalOrientation >-75 && goalOrientation <= -65){
-    goalAngle = Orientation - 75;
-}
-else if(goalOrientation <85 && goalOrientation >= 75){
-    goalAngle = Orientation + 85;
-}
-else if(goalOrientation >-85 && goalOrientation <= -75){
-    goalAngle = Orientation - 85;
-}
-else{
-    goalAngle = Orientation;
+if(goalOrientation <= 5 && goalOrientation >=-5)
+{
+    goalOrientation = 0;
 }
 
-    
 
+
+    goalAngle = Orientation + goalOrientation;
 
     if (goalAngle > 360)
     {
@@ -98,12 +49,12 @@ else{
     {
         goalAngle = goalAngle + 360;
     }
-   }
     Serial.print("goal Angle : ");
     Serial.println(goalAngle);
     
 
     
+}
 }
 
 void Goal::Kick(double goalDist, bool capture, double correction)

@@ -57,7 +57,7 @@ xbeeHighVal = 0;
     }
 
     xbeeHighVal = xbeeHighVal / count;
-    Serial.print("highestVal");
+    Serial.print("highestVal : ");
     Serial.println(xbeeHighVal);
     ballAngle = toDegrees(atan2(totalCos, totalSin));
     if (ballAngle < 0)
@@ -80,8 +80,8 @@ void BallAngle::CalculateRobotAngle()
     // Serial.print("ballangle : ");
     // Serial.println(newballAngle);
     double orbitvalue = min(90, 0.08 * exp(0.2 * newballAngle));
-    // Serial.print("dampen : ");
-    // Serial.println(dampenVal);
+    Serial.print("dampen : ");
+    Serial.println(dampenVal);
     // Serial.print("orbit : ");
     // Serial.println(orbitvalue);
     robotAngle = ballAngle + (ballAngle > 180 ? -1 : 1) * (orbitvalue * dampenVal);
@@ -106,7 +106,6 @@ void BallAngle::Intake()
 void BallAngle::kickButton()
 {
     kickState = 1;
-    digitalWrite(10, LOW);
     kickState = digitalRead(9);
 
     if (kickState == 0)

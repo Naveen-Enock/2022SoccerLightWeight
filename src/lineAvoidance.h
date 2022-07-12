@@ -4,7 +4,7 @@ class LineAvoidance {
   public: 
      LineAvoidance();  
      bool lineSwitch;
-      void Process(bool ball, int *calibrateVal, int *lineVal, int *sensorVal);
+      void Process(bool ball, int *calibrateVal, int *lineVal, int *sensorVal, double chordThreshold);
       int lowestval;
       int highestval;
       int sensorAngle;

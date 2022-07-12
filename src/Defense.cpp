@@ -7,7 +7,7 @@ Defense::Defense()
     stop = false;
 }
 
-void Defense::defense(double highestVal, double ballAngle, int goalAngle, bool linePresent, int initialOrientation)
+void Defense::defense(bool Switch, double ballAngle, int goalAngle, bool linePresent, int initialOrientation)
 {
 
        if(goalAngle ==-5){
@@ -51,7 +51,7 @@ void Defense::defense(double highestVal, double ballAngle, int goalAngle, bool l
 
     }
 
-    if(linePresent==false && highestVal < 600 && defenseTick > 20000){
+    if(linePresent==false && Switch == true){
 findLine = true;
 
     }

@@ -13,6 +13,7 @@ bool offenseRole;
 void proximity();
 int xbeeRole;
 void sendData(double highestVal, bool robotRole);
+bool Switch;
 private:
 
 

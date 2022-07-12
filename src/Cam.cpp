@@ -8,10 +8,10 @@ Cam::Cam()
   buff = 0;
   dist = 0;
   buffer = "";
-  angleAverage = new int[10];
-  distAverage = new int[10];
-  angle2Average = new int[10];
-  dist2Average = new int[10];
+  angleAverage = new int[20];
+  distAverage = new int[20];
+  angle2Average = new int[20];
+  dist2Average = new int[20];
   dataNum = 0;
 }
 double Cam::CamCalc()
@@ -63,7 +63,7 @@ double Cam::CamCalc()
 double Cam::camAverage()
 {
 
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 20; i++)
   {
     CamCalc();
     angleAverage[i] = buff;
@@ -72,20 +72,20 @@ double Cam::camAverage()
     angle2Average[i] = buff2;
   }
   
-  sort(angleAverage, angleAverage + 10);
-  buff = (angleAverage[4] + angleAverage[5]) / 2.0;
+  sort(angleAverage, angleAverage + 20);
+  buff = (angleAverage[9] + angleAverage[10]) / 2.0;
   Serial.print("YellowGoal : ");
   Serial.println(buff);
-  sort(angle2Average, angle2Average + 10);
-  buff2 = (angle2Average[4] + angle2Average[5]) / 2.0;
+  sort(angle2Average, angle2Average + 20);
+  buff2 = (angle2Average[9] + angle2Average[10]) / 2.0;
   Serial.print("BlueGoal : ");
   Serial.println(buff2);
-  sort(distAverage, distAverage + 10);
-  dist = (distAverage[4] + distAverage[5]) / 2.0;
+  sort(distAverage, distAverage + 20);
+  dist = (distAverage[9] + distAverage[10]) / 2.0;
   Serial.print("YelowDist : ");
   Serial.println(dist);
-  sort(dist2Average, dist2Average + 10);
-  dist2 = (dist2Average[4] + dist2Average[5]) / 2.0;
+  sort(dist2Average, dist2Average + 20);
+  dist2 = (dist2Average[9] + dist2Average[10]) / 2.0;
   Serial.print("BlueDist : ");
   Serial.println(dist2);
 };

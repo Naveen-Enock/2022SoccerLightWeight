@@ -50,14 +50,14 @@ void runRobot()
 
   if (xbee.offenseRole == false)
   {
- 
+    Serial.println("hi");
 
     cam.camAverage();
 
     ballAngle.Process();
     xbee.role(ballAngle.xbeeHighVal);
-    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle());
-    defense.defense(lineAvoidance.projectionAngle, ballAngle.ballAngle,cam.buff,lineAvoidance.linepresent, initialOrientation);
+    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle(),0.9);
+    defense.defense(xbee.Switch, ballAngle.ballAngle,cam.buff,lineAvoidance.linepresent, initialOrientation);
     motor.Move(ballAngle.ballpresent, defense.defenseAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle, defense.stop);
   }
   else
@@ -68,14 +68,19 @@ void runRobot()
     ballAngle.Intake();
     ballAngle.Process();
     xbee.role(ballAngle.xbeeHighVal);
-    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle());
+    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle(), 0.2);
     //goal.Kick(cam.dist, ballAngle.capture, motor.correction);
     defense.stop = false;
     Serial.println(cam.buff2);
-   goal.Process(compassSensor.getOrientation(), cam.buff2, initialOrientation);
+  //   if(ballAngle.ballAngle <45 || ballAngle.ballAngle > 315){
+  //  goal.Process(compassSensor.getOrientation(), cam.buff2, initialOrientation);
       
-    motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), goal.goalAngle , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
-
+     motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
+  //   }
+  //   else{
+     
+  //    motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
+  //   }
   }
 }
 

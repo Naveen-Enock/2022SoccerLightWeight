@@ -50,17 +50,22 @@ void Switching::sendData(double highestVal, bool robotRole)
 
 void Switching::role(int highestVal) 
 {
+  Switch = false;
     sendData(highestVal, offenseRole);
     proximity();
-    
-// if(highestVal>ballDist)
-// {
-// offenseRole = true;
-// }
-// else if(ballDist>highestVal)
-// {
-//   offenseRole = false;
-// }
+    if(xbeeRole == true){
+      offenseRole = false;
+    }
+if(offenseRole == false){
+  if(highestVal > 660){
+    offenseRole = true;
+  }
+}
+if(offenseRole == true && xbeeRole == true)
+{
+  Switch = true;
+}
+
 
 
 }

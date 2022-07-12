@@ -8,7 +8,7 @@ class Defense
 {
 public:
     Defense();
-    void defense(double highestVal, double ballAngle,int goalAngle, bool linePresent, int initialOrientation);
+    void defense(bool Switch, double ballAngle,int goalAngle, bool linePresent, int initialOrientation);
     double defenseAngle;
     double newLineAngle;
     boolean stop;
