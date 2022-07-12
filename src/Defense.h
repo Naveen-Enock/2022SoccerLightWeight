@@ -12,6 +12,7 @@ public:
     double defenseAngle;
     double newLineAngle;
     boolean stop;
+    bool findLine;
 
 private:
   double ballAngleX;
@@ -25,7 +26,7 @@ private:
   double robotAngleX;
   double robotAngleY;
   int defenseTick;
-  bool findLine;
+
   double angleDiff;
   
 

@@ -8,7 +8,7 @@ class Switching
 public:
 Switching();
 double ballDist;
-void role(int highestVal);
+void role(int highestVal, bool findLine);
 bool offenseRole;
 void proximity();
 int xbeeRole;

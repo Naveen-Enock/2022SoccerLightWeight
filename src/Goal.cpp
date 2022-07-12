@@ -23,14 +23,7 @@ void Goal::Process(int Orientation, double goalOrientation, int initialOrientati
         goalOrientation = goalOrientation - 360;
     }
     
-// if(goalOrientation < -10)
-// {
-//     goalOrientation = -50;
-// }
-// else if(goalOrientation > 10)
-// {
-//     goalOrientation = 50;
-// }
+
 
 if(goalOrientation <= 5 && goalOrientation >=-5)
 {
