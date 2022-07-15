@@ -7,70 +7,95 @@
 LineAvoidance::LineAvoidance()
 {
     lowestval = 1024;
-    highestval = -1;
+    highestval = -181;
     anglebisc = -1;
     chord = -1;
     initialAngle = -1;
 
     lineSwitch = false;
     outOfBounds = false;
+    negativeLow = false;
+    dotProduct = new double[24];
 }
 
-void LineAvoidance::angle(int *calibrateVal, int *lineVal, int *sensorVal)
+void LineAvoidance::angle(int *calibrateVal, int *lineVal, int *sensorVal, double *sinVal, double *cosVal)
 {
-    lowestval = 1024;
-    highestval = -1;
+
     lineValues = lineVal;
     sensorAngles = sensorVal;
-    
+    negativeLow = false;
+
     linepresent = false;
+    double *cosValues = cosVal;
+    double *sinValues = sinVal;
+    double totalCos = 0;
+    double totalSin = 0;
     for (int i = 0; i < 24; i++)
     {
-        
+        // Serial.print(i);
+        // Serial.print("line : ");
+        // Serial.println(lineValues[i]);
         if (lineValues[i] < calibrateVal[i])
         {
 
-            sensorAngles[i] = -1;
-  
+            lineValues[i] = 0;
+            dotProduct[i] = 0;
         }
+        else
+        {
+            lineValues[i] = 1;
+            linepresent = true;
+            dotProduct[i] = sensorAngles[i];
+        }
+
         //           Serial.print(i);
         // Serial.print("line : ");
         // Serial.println(calibrateVal[i]);
-        if (lowestval > sensorAngles[i] && sensorAngles[i] != -1)
-        {
-            lowestval = sensorAngles[i];
-        }
-        if (highestval < sensorAngles[i])
-        {
-            highestval = sensorAngles[i];
-        }
-        if (sensorAngles[i] > -1)
-        {
-            linepresent = true;
-        }
-        //  Serial.print(i);
-        //   Serial.print("line : ");
-        //   Serial.println(lineValues[i]);
+
+        
     }
-    Serial.print("lowest : ");
-    Serial.println(lowestval);
-    Serial.print("highest : ");
-    Serial.println(highestval);
-    sensorAngle = highestval - lowestval;
-    if (sensorAngle > 180)
+ 
+    lowestDot = 2;
+    for (int i = 0; i < 24; i++)
+    {
+        for (int j = 0; j < 24; j++)
+        {
+            if (dotProduct[i] != 0 && dotProduct[j] != 0)
+            {
+                dot = (sinValues[i] * sinValues[j]) + (cosValues[i] * cosValues[j]);
+                if (dot < lowestDot)
+                {
+                    lowestDot = dot;
+                    firstAngle = i;
+                    secondAngle = j;
+                }
+            }
+        }
+    }
+    // Serial.print("Dot Produt");
+    // Serial.println(lowestDot);
+    //     Serial.print("first angle");
+    // Serial.println(sensorAngles[firstAngle]);
+    //     Serial.print("second angle");
+    //Serial.println(sensorAngles[secondAngle]);
+    totalCos = cosValues[firstAngle] + cosValues[secondAngle];
+        totalSin = sinValues[firstAngle] + sinValues[secondAngle];
+                
+    anglebisc = toDegrees(atan2(totalCos, totalSin));
+    sensorAngle = abs(sensorAngles[firstAngle]-sensorAngles[secondAngle]);
+       if (sensorAngle > 180)
     {
         sensorAngle = 360 - sensorAngle;
-        anglebisc = sensorAngle / 2;
-        anglebisc = (highestval + anglebisc);
-        if (anglebisc >= 360)
-        {
-            anglebisc = anglebisc - 360;
-        }
     }
-    else
+
+    if (totalCos == 0 && totalSin == 0)
     {
-        anglebisc = sensorAngle / 2;
-        anglebisc = lowestval + anglebisc;
+        anglebisc = initialAngle;
+    }
+    if (anglebisc < 0)
+    {
+
+        anglebisc = anglebisc + 360;
     }
     Serial.print("Angle Bisc : ");
     Serial.println(anglebisc);
@@ -79,34 +104,24 @@ void LineAvoidance::angle(int *calibrateVal, int *lineVal, int *sensorVal)
 void LineAvoidance::Chord()
 {
     chord = 2 * (0.5 * sin(toRadians(sensorAngle / 2)));
-    
+ 
 }
 
 void LineAvoidance::Power(bool ball)
 {
-    if (linepresent == true)
-    {
 
- 
-        lineFR = sin(toRadians(lineAngle - 40));
-        lineRR = sin(toRadians(lineAngle - 130));
-        lineRL = sin(toRadians(lineAngle - 230));
-        lineFL = sin(toRadians(lineAngle - 310));
+    lineFR = sin(toRadians(lineAngle - 40));
+    lineRR = sin(toRadians(lineAngle - 130));
+    lineRL = sin(toRadians(lineAngle - 230));
+    lineFL = sin(toRadians(lineAngle - 310));
 
-        double maxPower = max(max(abs(lineFR), abs(lineFL)), max(abs(lineRR), abs(lineFL)));
+    double maxPower = max(max(abs(lineFR), abs(lineFL)), max(abs(lineRR), abs(lineFL)));
 
-        lineFR = (lineFR / maxPower);
-        lineRR = (lineRR / maxPower);
-        lineRL = (lineRL / maxPower);
-        lineFL = (lineFL / maxPower);
-    }
-    else if (linepresent == false)
-    {
-        lineFR = 0;
-        lineRR = 0;
-        lineRL = 0;
-        lineFL = 0;
-    }
+    lineFR = (lineFR / maxPower);
+    lineRR = (lineRR / maxPower);
+    lineRL = (lineRL / maxPower);
+    lineFL = (lineFL / maxPower);
+
     // Serial.print("Power FR : ");
     // Serial.println(lineFR);
     // Serial.print("Power RR : ");
@@ -117,13 +132,15 @@ void LineAvoidance::Power(bool ball)
     // Serial.println(lineFL);
 }
 
-void LineAvoidance::Process(bool ball, int *calibrateVal, int *lineVal, int *sensorVal, double chordThreshold)
+void LineAvoidance::Process(bool ball, int *calibrateVal, int *lineVal, int *sensorVal, double chordThreshold, double *sinVal, double *cosVal)
 {
-    angle(calibrateVal, lineVal, sensorVal);
+    angle(calibrateVal, lineVal, sensorVal, sinVal, cosVal);
+    Serial.print("linePresent : ");
+    Serial.println(linepresent);
     if (linepresent == true)
     {
         outOfBounds = false;
-        if (initialAngle == -1 )
+        if (initialAngle == -1)
         {
             initialAngle = anglebisc;
         }
@@ -140,7 +157,8 @@ void LineAvoidance::Process(bool ball, int *calibrateVal, int *lineVal, int *sen
         }
         Serial.print("Diff : ");
         Serial.println(angleDiff);
-        if (angleDiff > 100 && angleDiff <= 180 && lineSwitch == false){
+        if (angleDiff > 90 && lineSwitch == false)
+        {
             lineSwitch = true;
             angleDiff = 0;
         }
@@ -152,7 +170,7 @@ void LineAvoidance::Process(bool ball, int *calibrateVal, int *lineVal, int *sen
             Chord();
             chordlength = 2 - chord;
 
-            if (angleDiff > 100 && angleDiff <= 180)
+            if (angleDiff > 90)
             {
                 lineSwitch = false;
             }
@@ -168,32 +186,32 @@ void LineAvoidance::Process(bool ball, int *calibrateVal, int *lineVal, int *sen
             Chord();
             chordlength = chord;
         }
-
+        Serial.print("line Switch: ");
+        Serial.println(lineSwitch);
         lineFR = 0;
         lineRR = 0;
         lineRL = 0;
         lineFL = 0;
         projectionState = false;
-projectionAngle = anglebisc + 90;
-  if (projectionAngle > 360)
-            {
-                projectionAngle = projectionAngle - 360;
-            }
+
         if (chordlength > 0 && chordlength < chordThreshold)
         {
             projectionState = true;
-            
-       
-             Serial.print("projectionAngle : ");
-        Serial.println(projectionAngle);
+        projectionAngle = anglebisc + 90;
+        if (projectionAngle > 360)
+        {
+            projectionAngle = projectionAngle - 360;
         }
-        else if (chordlength >= chordThreshold)
+            Serial.print("projectionAngle : ");
+            Serial.println(projectionAngle);
+        }
+        if (chordlength >= chordThreshold)
         {
             Power(ball);
         }
-       Serial.print("lineAngle : ");
+        Serial.print("lineAngle : ");
         Serial.println(lineAngle);
-        
+
         Serial.print("chordlength : ");
         Serial.println(chordlength);
         // Serial.print("Initial : ");
@@ -201,23 +219,26 @@ projectionAngle = anglebisc + 90;
     }
     else if (linepresent == false)
     {
-        if(lineSwitch == true)
+        if (lineSwitch == true)
         {
-           outOfBounds = true; 
-           initialAngle = -1;
-           Power(ball);
+            Serial.println("hi");
+            Serial.println(lineAngle);
+            outOfBounds = true;
+            initialAngle = -1;
+            Power(ball);
         }
-        
-        else{
-        initialAngle = -1;
-        lineAngle = -1;
-        chordlength = 0;
-        lineSwitch = false;
-        lineFR = 0;
-        lineRR = 0;
-        lineRL = 0;
-        lineFL = 0;
-        projectionState = false;
+
+        else
+        {
+            initialAngle = -1;
+            lineAngle = -1;
+            chordlength = 0;
+            lineSwitch = false;
+            lineFR = 0;
+            lineRR = 0;
+            lineRL = 0;
+            lineFL = 0;
+            projectionState = false;
         }
     }
 }

@@ -14,4 +14,5 @@ int goalInitiate;
 double realAngle;
 double goalDiff;
 int placeHolder;
+bool newCap;
 };

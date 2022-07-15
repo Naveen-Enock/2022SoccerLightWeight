@@ -37,7 +37,7 @@ void Switching::proximity()
   }
 }
 
-void Switching::sendData(double highestVal, bool robotRole)
+void Switching::sendData(double highestVal, int robotRole)
 {
   Serial8.print(highestVal);
   Serial8.print("|");
@@ -48,26 +48,11 @@ void Switching::sendData(double highestVal, bool robotRole)
 void Switching::role(int highestVal, bool findLine)
 {
   Switch = false;
-
-  sendData(highestVal, offenseRole);
+  buttonState = digitalRead(9);
+  if(buttonState == 0){
+  sendData(highestVal, 70);}
   proximity();
-  if (offenseRole == true && xbeeRole == true)
-  {
-    Switch = true;
-  }
-  if (xbeeRole == true)
-  {
-    offenseRole = false;
-
-  }
-  if(Switch == true){
-    findLine = true;
-  }
-  if (offenseRole == false && findLine == false)
-  {
-    if (highestVal > 660)
-    {
-      offenseRole = true;
-    }
+  if(offenseRole == false && xbeeRole == 70){
+    offenseRole = true;
   }
 }

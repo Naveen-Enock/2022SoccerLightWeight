@@ -25,7 +25,7 @@ void Goal::Process(int Orientation, double goalOrientation, int initialOrientati
     
 
 
-if(goalOrientation <= 5 && goalOrientation >=-5)
+if(goalOrientation <= 10 && goalOrientation >=-10)
 {
     goalOrientation = 0;
 }
@@ -42,6 +42,9 @@ if(goalOrientation <= 5 && goalOrientation >=-5)
     {
         goalAngle = goalAngle + 360;
     }
+    if(goalOrientation > 95 && goalOrientation < 265){
+        goalAngle = initialOrientation;
+    }
     Serial.print("goal Angle : ");
     Serial.println(goalAngle);
     
@@ -52,9 +55,12 @@ if(goalOrientation <= 5 && goalOrientation >=-5)
 
 void Goal::Kick(double goalDist, bool capture, double correction)
 {
-    if (capture == true && kickTimer >=0 && kickTimer <=200 && goalDist < 500)
+    if(capture == true){
+        newCap = true;
+    }
+    if (newCap == true && kickTimer == 0 )
     {
-        if (kickWait == 30 )
+        if (kickWait == 18 )
         {
       
 
@@ -63,11 +69,11 @@ void Goal::Kick(double goalDist, bool capture, double correction)
             kickTimer = kickTimer + 1;
         
         }
-        else if(kickWait >= 0 && kickWait <30)
+        else if(kickWait >= 0 && kickWait <18)
         {
             kickWait += 1;
         }
-        else if(kickWait >30)
+        else if(kickWait >18)
         {
             kickWait = 0;
         }
@@ -75,14 +81,19 @@ void Goal::Kick(double goalDist, bool capture, double correction)
         Serial.println(kickWait);
     }
 
-    else if (kickTimer > 200 && kickTimer <= 800)
+    else if (kickTimer > 0 && kickTimer <= 30)
+    {
+         kickTimer = kickTimer + 1;
+    }
+    else if(kickTimer>30 && kickTimer <= 1000)
     {
         kickActivate = 1;
         kickTimer = kickTimer + 1;
-        kickWait += 1;
+        kickWait = 31;
+        newCap = false;
     }
 
-    else if (kickTimer > 800)
+    else if (kickTimer > 1000)
     {
         kickTimer = 0;
     }
@@ -93,9 +104,9 @@ void Goal::Kick(double goalDist, bool capture, double correction)
     if (kickActivate == 0)
     {
         digitalWrite(10, HIGH);
-        kickActivate = 1;
+        
     }
-    else
+    else if(kickActivate == 1)
     {
         digitalWrite(10, LOW);
     }

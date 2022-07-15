@@ -27,6 +27,7 @@ Calibration calibration;
 
 int initialOrientation = -1;
 
+
 double camAngle = -1;
 int buttonstate = -1;
 int startstate = -1;
@@ -35,7 +36,7 @@ int calState = -1;
 
 void setup()
 {
-
+initialOrientation = compassSensor.getOrientation();
   Serial2.begin(19200);
   Serial8.begin(9600);
 
@@ -48,7 +49,9 @@ void setup()
 void runRobot()
 {
    ballAngle.Process();
-xbee.role(ballAngle.xbeeHighVal, defense.findLine);
+  xbee.role(ballAngle.xbeeHighVal, defense.findLine);
+        
+
   if (xbee.offenseRole == false)
   {
     
@@ -57,7 +60,7 @@ xbee.role(ballAngle.xbeeHighVal, defense.findLine);
 
    
     
-    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle(),0.9);
+    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle(),0.8, lineSensor.GetCosValues(), lineSensor.GetSinValues());
     defense.defense(xbee.Switch, ballAngle.ballAngle,cam.buff,lineAvoidance.linepresent, initialOrientation);
     motor.Move(ballAngle.ballpresent, defense.defenseAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle, defense.stop);
   }
@@ -69,25 +72,24 @@ xbee.role(ballAngle.xbeeHighVal, defense.findLine);
     ballAngle.Intake();
   
    
-    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle(), 0.2);
+    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle(), 0.2, lineSensor.GetCosValues(), lineSensor.GetSinValues());
     goal.Kick(cam.dist, ballAngle.capture, motor.correction);
     defense.stop = false;
-    Serial.println(cam.buff2);
     if(ballAngle.ballAngle <45 || ballAngle.ballAngle > 315){
-   goal.Process(compassSensor.getOrientation(), cam.buff2, initialOrientation);
-      
-     motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
+   goal.Process(compassSensor.getOrientation(), cam.buff, initialOrientation);
+      ballAngle.CalculateRobotAngle(cam.buff2);
+    //motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), goal.goalAngle , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
     }
     else{
-     
-     motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
+     ballAngle.CalculateRobotAngle(-5);
+      //motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
     }
   }
 }
 
 void loop()
 {
-  //delay(1000);
+delay(1000);
 
   if (delayTick < 2)
   {
@@ -109,13 +111,14 @@ void loop()
       }
       
       Serial.println("press button to start");
+      //ballAngle.kickButton();
    
 
     }
 
     else if (buttonstate == 2)
     {
-      initialOrientation = compassSensor.getOrientation();
+      
       for(int i = 0; i<24;i++)
       {
         calibration.calVal[i]+=10;
@@ -125,10 +128,10 @@ void loop()
 
     else if (buttonstate == 1)
     {
-      runRobot();
 
-      
-      buttonstate = digitalRead(9);
+
+      runRobot();
+      //buttonstate = digitalRead(9);
     }
 
     else if (buttonstate == 0)
@@ -142,6 +145,10 @@ void loop()
       digitalWrite(4, LOW);
       analogWrite(5, 0);
       analogWrite(3, 0);
+            for(int i = 0; i<24;i++)
+      {
+        calibration.calVal[i] = -1;
+      }
       buttonstate = -1;
     }
   }

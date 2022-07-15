@@ -39,18 +39,18 @@ void BallAngle::Process()
     double totalSin = 0;
     int threshold = min(550, (realhighestVal - 150));
     int count = 0;
-xbeeHighVal = 0;
+    xbeeHighVal = 0;
     for (int i = 0; i < 24; i++)
     {
         if (sensorValues[i] < threshold)
         {
             sensorValues[i] = 0;
-        }else
+        }
+        else
         {
-            count = count +1 ;
+            count = count + 1;
             xbeeHighVal = xbeeHighVal + sensorValues[i];
         }
-        
 
         totalCos += sensorValues[i] * cosValues[i];
         totalSin += sensorValues[i] * sinValues[i];
@@ -68,10 +68,10 @@ xbeeHighVal = 0;
 
     Serial.print("Ballangle : ");
     Serial.println(ballAngle);
-    CalculateRobotAngle();
+    //CalculateRobotAngle();
 }
 
-void BallAngle::CalculateRobotAngle()
+void BallAngle::CalculateRobotAngle(int goalAngle)
 {
 
     double dampenVal = min(1, 0.02 * exp(5.5 * highestValue));
@@ -79,7 +79,18 @@ void BallAngle::CalculateRobotAngle()
     double newballAngle = ballAngle > 180 ? (360 - ballAngle) : ballAngle;
     // Serial.print("ballangle : ");
     // Serial.println(newballAngle);
+    if (goalAngle == -5)
+    {
+        goalAngle = 0;
+    }
+    if (goalAngle > 180)
+    {
+        goalAngle = 360 - goalAngle;
+    }
+
+    multiplier = 0.05 * (goalAngle) + 1;
     double orbitvalue = min(90, 0.08 * exp(0.2 * newballAngle));
+    orbitvalue = orbitvalue;
     Serial.print("dampen : ");
     Serial.println(dampenVal);
     // Serial.print("orbit : ");
@@ -93,7 +104,7 @@ void BallAngle::Intake()
 {
     Serial.print("Intake : ");
     Serial.println(analogRead(14));
-    if (analogRead(14) < 140)
+    if (analogRead(14) < 300)
     {
         capture = true;
     }

@@ -15,10 +15,12 @@ class BallAngle {
         bool ballpresent = false;
         int realhighestVal;
           int xbeeHighVal;
+        void CalculateRobotAngle(int goalAngle);
 
     private:
         BallSensor ballSensor;
         int *sensorValues;
-        void CalculateRobotAngle(); 
+        int multiplier;
+         
         
 };

@@ -51,10 +51,10 @@ void Defense::defense(bool Switch, double ballAngle, int goalAngle, bool linePre
 
     }
 
-    if(linePresent==false && Switch == true){
-findLine = true;
+//     if(linePresent == false && defenseTick > 20000){
+// findLine = true;
 
-    }
+//     }
     if (findLine == true)
     {
        defenseAngle = 180;
@@ -66,7 +66,6 @@ findLine = true;
     else{
     ++defenseTick;
     }
-
     angleDiff = abs(ballAngle - goalAngle);
          if (angleDiff > 180)
         {
@@ -79,6 +78,8 @@ findLine = true;
     else{
         stop = false;
     }
+    Serial.print("defense Tick : ");
+    Serial.println(defenseTick);
     Serial.print("defense angle : ");
     Serial.println(defenseAngle);
     Serial.print("ball angle: ");

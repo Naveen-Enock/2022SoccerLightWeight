@@ -4,7 +4,7 @@ class LineAvoidance {
   public: 
      LineAvoidance();  
      bool lineSwitch;
-      void Process(bool ball, int *calibrateVal, int *lineVal, int *sensorVal, double chordThreshold);
+      void Process(bool ball, int *calibrateVal, int *lineVal, int *sensorVal, double chordThreshold, double *sinVal, double *cosVal);
       int lowestval;
       int highestval;
       int sensorAngle;
@@ -20,7 +20,7 @@ class LineAvoidance {
       int angleDiff;
       int lineAngle;
       bool linepresent = false;
-      void angle(int *calibrateVal, int *lineVal, int *sensorVal);
+      void angle(int *calibrateVal, int *lineVal, int *sensorVal, double *sinVal, double *cosVal);
       
       bool projectionState;
       int projectionAngle;
@@ -34,10 +34,17 @@ class LineAvoidance {
     
     int *sensorAngles;
     int *lineValues;
-   
-    
+     double *cosValues; 
+    double *sinValues;
+   bool negativeLow;
+   double *dotProduct;
+    double dot;
+    double lowestDot;
+       int firstAngle;
+    int secondAngle;
     
     void Chord();
     void Power(bool ball);
     int initialWait;
+    int lineBisc;
 };
