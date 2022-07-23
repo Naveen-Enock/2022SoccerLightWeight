@@ -33,7 +33,7 @@ void Defense::defense(bool Switch, double ballAngle, int goalAngle, bool linePre
         defenseAngle = defenseAngle + 360;
     }
 
-    if (defenseAngle > 280 || defenseAngle < 80)
+    if (defenseAngle > 270 || defenseAngle < 90)
     {
         vectorX = sin(toRadians(90));
         vectorY = cos(toRadians(90));
@@ -51,10 +51,10 @@ void Defense::defense(bool Switch, double ballAngle, int goalAngle, bool linePre
 
     }
 
-//     if(linePresent == false && defenseTick > 20000){
-// findLine = true;
+    if(linePresent == false && defenseTick > 50000){
+findLine = true;
 
-//     }
+    }
     if (findLine == true)
     {
        defenseAngle = 180;

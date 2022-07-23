@@ -60,7 +60,7 @@ void Goal::Kick(double goalDist, bool capture, double correction)
     }
     if (newCap == true && kickTimer == 0 )
     {
-        if (kickWait == 18 )
+        if (kickWait == 10 )
         {
       
 
@@ -69,11 +69,11 @@ void Goal::Kick(double goalDist, bool capture, double correction)
             kickTimer = kickTimer + 1;
         
         }
-        else if(kickWait >= 0 && kickWait <18)
+        else if(kickWait >= 0 && kickWait <10)
         {
             kickWait += 1;
         }
-        else if(kickWait >18)
+        else if(kickWait >10)
         {
             kickWait = 0;
         }
@@ -85,7 +85,7 @@ void Goal::Kick(double goalDist, bool capture, double correction)
     {
          kickTimer = kickTimer + 1;
     }
-    else if(kickTimer>30 && kickTimer <= 1000)
+    else if(kickTimer>30 && kickTimer <= 500)
     {
         kickActivate = 1;
         kickTimer = kickTimer + 1;
@@ -93,7 +93,7 @@ void Goal::Kick(double goalDist, bool capture, double correction)
         newCap = false;
     }
 
-    else if (kickTimer > 1000)
+    else if (kickTimer > 500)
     {
         kickTimer = 0;
     }

@@ -27,7 +27,9 @@ void BallAngle::Process()
     realhighestVal = highestValue;
 
     highestValue = highestValue / 1024;
-    if (realhighestVal > 124)
+    Serial.print("realHighestVal ;: ");
+    Serial.println(realhighestVal);
+    if (realhighestVal > 150)
     {
         ballpresent = true;
     }
@@ -104,7 +106,7 @@ void BallAngle::Intake()
 {
     Serial.print("Intake : ");
     Serial.println(analogRead(14));
-    if (analogRead(14) < 300)
+    if (analogRead(14) < 680)
     {
         capture = true;
     }

@@ -49,6 +49,8 @@ void Switching::role(int highestVal, bool findLine)
 {
   Switch = false;
   buttonState = digitalRead(9);
+  Serial.print("Button state : ");
+  Serial.println(buttonState);
   if(buttonState == 0){
   sendData(highestVal, 70);}
   proximity();

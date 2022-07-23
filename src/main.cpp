@@ -60,7 +60,7 @@ void runRobot()
 
    
     
-    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle(),0.8, lineSensor.GetCosValues(), lineSensor.GetSinValues());
+    lineAvoidance.Process(ballAngle.ballpresent, calibration.calVal, lineSensor.GetValues(), lineSensor.LineAngle(),0.7, lineSensor.GetCosValues(), lineSensor.GetSinValues());
     defense.defense(xbee.Switch, ballAngle.ballAngle,cam.buff,lineAvoidance.linepresent, initialOrientation);
     motor.Move(ballAngle.ballpresent, defense.defenseAngle, compassSensor.getOrientation(), initialOrientation, lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle, defense.stop);
   }
@@ -76,20 +76,20 @@ void runRobot()
     goal.Kick(cam.dist, ballAngle.capture, motor.correction);
     defense.stop = false;
     if(ballAngle.ballAngle <45 || ballAngle.ballAngle > 315){
-   goal.Process(compassSensor.getOrientation(), cam.buff, initialOrientation);
-      ballAngle.CalculateRobotAngle(cam.buff2);
-    //motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), goal.goalAngle , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
+   goal.Process(compassSensor.getOrientation(), cam.buff2, initialOrientation);
+      ballAngle.CalculateRobotAngle(cam.buff);
+    motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), goal.goalAngle , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
     }
     else{
      ballAngle.CalculateRobotAngle(-5);
-      //motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
+      motor.Move(ballAngle.ballpresent, ballAngle.robotAngle, compassSensor.getOrientation(), initialOrientation , lineAvoidance.lineFR, lineAvoidance.lineRR, lineAvoidance.lineRL, lineAvoidance.lineFL,lineAvoidance.projectionState,lineAvoidance.projectionAngle,defense.stop);
     }
   }
 }
 
 void loop()
 {
-delay(1000);
+//delay(1000);
 
   if (delayTick < 2)
   {
@@ -121,7 +121,7 @@ delay(1000);
       
       for(int i = 0; i<24;i++)
       {
-        calibration.calVal[i]+=10;
+        calibration.calVal[i]+=50;
       }
       buttonstate = 1;
     }
@@ -129,7 +129,7 @@ delay(1000);
     else if (buttonstate == 1)
     {
 
-
+      
       runRobot();
       //buttonstate = digitalRead(9);
     }
